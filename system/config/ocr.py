@@ -577,7 +577,7 @@ class PortForward:
           clear_output()
           loadingAn(name="lds")
           textAn("Starting Argo Tunnel ...", ty="twg")
-        data = dict(url="https://"+ArgoTunnel(port, proto, closePort(self.config[1])).keep_alive())
+        data = dict(url="https://"+ArgoTunnel(port, proto, closePort).keep_alive())
         if displayB:
           displayUrl(data, btc)
         return data
