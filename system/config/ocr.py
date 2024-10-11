@@ -597,8 +597,8 @@ class PortForward:
 
 
 class PortForward_wrapper(PortForward):
-  def __init__(self,SERVICE,TOKEN,USE_FREE_TOKEN,connections,region,config):
-    super(self.__class__,self).__init__(connections,region,SERVICE,TOKEN,USE_FREE_TOKEN,config)
+  def __init__(self,SERVICE,connections):
+    super(self.__class__,self).__init__(connections,SERVICE)
 
 
 def findPackageR(id_repo, p_name, tag_name=False, all_=False):
