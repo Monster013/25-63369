@@ -1,7 +1,7 @@
 
 # Disk & Memory
 directory = /content/drive/MyDrive/Downloads
-session = tools/rtorrent/session
+session = tools/rTorrent/session
 check_hash = yes
 
 # Incoming Connections (Port Range)
