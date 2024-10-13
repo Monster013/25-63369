@@ -1,8 +1,7 @@
 
 # Disk & Memory
 directory = /content/drive/MyDrive/Downloads
-session = tools/rTorrent/session
-check_hash = yes
+session = /content/tools/rTorrent/session
 
 # Incoming Connections (Port Range)
 port_range = 40000-50000
@@ -11,8 +10,6 @@ port_random = yes
 # Decentralized Peer Discovery
 dht = auto
 dht_port = 6881
-trackers.use_udp.set = yes
-protocol.pex.set = yes
 min_peers = 1
 min_peers_seed = 1
 network.http.max_open.set = 100
@@ -20,5 +17,5 @@ network.http.max_open.set = 100
 # Enable encryption
 encryption = allow_incoming,try_outgoing,enable_retry
 
-# SCGI port
-scgi_port = 127.0.0.1:5000
+# SCGI local
+scgi_local = /content/tools/rTorrent/rtorrent.sock
