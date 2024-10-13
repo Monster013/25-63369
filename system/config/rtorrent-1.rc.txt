@@ -36,5 +36,5 @@ network.xmlrpc.size_limit.set = 4M
 encryption = allow_incoming,try_outgoing,enable_retry
 
 # SCGI port
-scgi_local = tools/rTorrent/rtorrent.sock
+network.scgi.open_local = tools/rTorrent/rtorrent.sock
 scgi_port = 127.0.0.1:5000
