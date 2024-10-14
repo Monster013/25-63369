@@ -12,7 +12,6 @@ dht = auto
 dht_port = 6881
 min_peers = 1
 min_peers_seed = 1
-network.http.max_open.set = 100
 
 # Enable encryption
 encryption = allow_incoming,try_outgoing,enable_retry
