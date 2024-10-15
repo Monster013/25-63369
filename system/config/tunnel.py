@@ -16,7 +16,7 @@ def start_ngrok(tunnel_port, ngrock_authtoken):
         os.system('wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz')
         os.system('tar -xvzf ngrok-v3-stable-linux-amd64.tgz')
         os.system(f'./ngrok config add-authtoken "{ngrock_authtoken}"')
-        os.remove('/content/ngrok')
+        # os.remove('/content/ngrok')
         os.remove('/content/ngrok-v3-stable-linux-amd64.tgz')
 
     # Start Ngrok tunnel
