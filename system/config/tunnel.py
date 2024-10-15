@@ -11,6 +11,8 @@ def start_ngrok(tunnel_port, ngrock_authtoken):
         os.system('wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz')
         os.system('tar -xvzf ngrok-v3-stable-linux-amd64.tgz')
         os.system(f'./ngrok config add-authtoken "{ngrock_authtoken}"')
+        os.remove('/content/ngrok')
+        os.remove('/content/ngrok-v3-stable-linux-amd64.tgz')
 
     # Start Ngrok tunnel
     os.system(f'./ngrok http {tunnel_port} &')
@@ -22,7 +24,6 @@ def start_ngrok(tunnel_port, ngrock_authtoken):
     return public_url
 
 def start_cloudflared(tunnel_port):
-    # Check if cloudflared is installed
     if not shutil.which('cloudflared'):
         os.system('curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb -o cloudflared.deb')
         os.system('sudo dpkg -i cloudflared.deb')
@@ -34,7 +35,6 @@ def start_cloudflared(tunnel_port):
 
     # Now find the cloudflared URL
     log_file_path = f'/root/cloudflared.{tunnel_port}.log'
-
     with open(log_file_path, 'r') as file:
         log_content = file.read()
         
@@ -50,9 +50,9 @@ def start_cloudflared(tunnel_port):
 # button_style.py
 
 # Define your button style variables
-bttxt = "#ffffff"  # Button text color
-btshado = "#ff00ff"  # Button shadow color
-btcolor = "#6200ea"  # Button background color
+bttxt = 'hsla(210, 50%, 85%, 1)'
+btcolor = 'hsl(210, 80%, 42%)'
+btshado = 'hsla(210, 40%, 52%, .4)'
 
 # HTML button code
 def get_button_html(tunnel_url):
