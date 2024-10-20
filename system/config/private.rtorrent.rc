@@ -32,5 +32,4 @@ network.max_open_sockets.set = 300
 encryption = allow_incoming,try_outgoing,enable_retry
 
 # SCGI local
-scgi_port = 127.0.0.1:5000
 scgi_local = /content/Tools/rTorrent/rtorrent.sock
