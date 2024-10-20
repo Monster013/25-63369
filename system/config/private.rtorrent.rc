@@ -1,7 +1,7 @@
 
 # Disk & Memory
 directory = /content/drive/MyDrive/Downloads
-session = tools/rTorrent/session
+session = /content/Tools/rTorrent/Session
 check_hash = yes
 
 # Incoming Connections (Port Range)
@@ -28,12 +28,9 @@ network.http.max_open.set = 50
 network.max_open_files.set = 600
 network.max_open_sockets.set = 300
 
-# Resources Memory
-pieces.memory.max.set = 1800M
-network.xmlrpc.size_limit.set = 4M
-
 # Enable encryption
 encryption = allow_incoming,try_outgoing,enable_retry
 
 # SCGI local
-scgi_local = /content/tools/rTorrent/rtorrent.sock
+scgi_port = 127.0.0.1:5000
+scgi_local = /content/Tools/rTorrent/rtorrent.sock
