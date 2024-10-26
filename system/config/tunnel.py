@@ -10,17 +10,35 @@ from IPython.display import HTML
 # Ngrok  Setup #
 ################
 
-def start_ngrok(tunnel_port, ngrock_authtoken):
-    # Check if the Ngrok config exists
-    if not os.path.exists('/root/.config/ngrok/ngrok.yml'):
+def start_ngrok_http(tunnel_port, ngrock_authtoken):
+
+    if not shutil.which('ngrok'):
         os.system('wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz')
-        os.system('tar -xvzf ngrok-v3-stable-linux-amd64.tgz')
-        os.system(f'./ngrok config add-authtoken "{ngrock_authtoken}"')
-        # os.remove('/content/ngrok')
+        os.system('tar -xvzf ngrok-v3-stable-linux-amd64.tgz -C /usr/local/bin')
         os.remove('/content/ngrok-v3-stable-linux-amd64.tgz')
+        
+os.system(f'ngrok config add-authtoken "{ngrock_authtoken}"')
 
     # Start Ngrok tunnel
-    os.system(f'./ngrok http {tunnel_port} &')
+    os.system(f'ngrok http {tunnel_port} &')
+    time.sleep(2)
+    tunnel_url = os.popen('curl -s http://localhost:4040/api/tunnels').read()
+    url_data = json.loads(tunnel_url)
+    public_url = url_data['tunnels'][0]['public_url']
+    
+    return public_url
+
+def start_ngrok_tcp(tunnel_port, ngrock_authtoken):
+
+    if not shutil.which('ngrok'):
+        os.system('wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz')
+        os.system('tar -xvzf ngrok-v3-stable-linux-amd64.tgz -C /usr/local/bin')
+        os.remove('/content/ngrok-v3-stable-linux-amd64.tgz')
+        
+os.system(f'ngrok config add-authtoken "{ngrock_authtoken}"')
+
+    # Start Ngrok tunnel
+    os.system(f'ngrok tcp {tunnel_port} &')
     time.sleep(2)
     tunnel_url = os.popen('curl -s http://localhost:4040/api/tunnels').read()
     url_data = json.loads(tunnel_url)
@@ -54,7 +72,7 @@ def start_cloudflared(tunnel_port):
     if urls:
         return f'https://{urls[-1]}'
     else:
-        return 'No matching URL found'
+        return ' Something is worng, Please run again...'
         
         
 ########################
