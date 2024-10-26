@@ -1,4 +1,3 @@
-
 import os
 import base64
 import requests
@@ -14,9 +13,9 @@ def install_torrents_tools():
         os.system('apt-get install ffmpeg')
         os.system('pip install bencode.py')
 
-###########
+#############
 # MKTORRENT #
-###########
+#############
 
 def generate_output_file(file_or_directory):
     base_name = os.path.basename(file_or_directory.rstrip('/'))
@@ -52,9 +51,9 @@ def get_piece_size(file_or_directory, custom_piece_size):
     else:
         return custom_piece_size
 
-#################
+########################
 # Screenshots & Upload #
-#################
+########################
 
 
 def generate_screenshots_and_upload(video_path, start_time, interval_minutes, num_screenshots, output_directory, api_key, quality=1):
@@ -110,9 +109,9 @@ def display_first_screenshot(output_directory):
         Image.open(first_screenshot_path).show()
         
         
-###################
+###########################
 # Screenshot & Media INFO #
-###################
+###########################
 
 def generate_smbbcode(screenshot_links, media_info):
     # Read screenshot links BBCode
@@ -143,9 +142,9 @@ def generate_output_txtfile(video_file):
     base_name_without_extension = os.path.splitext(base_name)[0]
     return f"{base_name_without_extension}_Torrent_Description.V2.txt"
     
-####################
+###########################
 # Loading Animation Setup #
-####################
+###########################
 
 def loadingAn(name="cal"):
       if name == "cal":
@@ -161,6 +160,6 @@ def textAn(TEXT, ty='d'):
             return display(HTML('''<style>@import url(https://fonts.googleapis.com/css?family=Anonymous+Pro);.line-1{font-family: 'Anonymous Pro', monospace;    position: relative;   border-right: 1px solid;    font-size: 15px;   white-space: nowrap;    overflow: hidden;    }.anim-typewriter{  animation: typewriter 0.4s steps(44) 0.2s 1 normal both,             blinkTextCursor 600ms steps(44) infinite normal;}@keyframes typewriter{  from{width: 0;}  to{width: '''+textcover+'''em;}}@keyframes blinkTextCursor{  from{border-right:2px;}  to{border-right-color: transparent;}}</style><div class="line-1 anim-typewriter">'''+TEXT+'''</div>'''))
             
 
-########
+##########
 #THE END #
-########
+##########
