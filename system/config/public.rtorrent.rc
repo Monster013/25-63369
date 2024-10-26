@@ -17,4 +17,4 @@ min_peers_seed = 1
 encryption = allow_incoming,try_outgoing,enable_retry
 
 # SCGI local
-scgi_local = /content/tools/rTorrent/rtorrent.sock
+scgi_local = /content/Tools/rTorrent/rtorrent.sock
