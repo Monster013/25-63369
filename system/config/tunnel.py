@@ -10,36 +10,44 @@ from IPython.display import HTML
 # Ngrok  Setup #
 ################
 
-def start_ngrok_http(tunnel_port, ngrock_authtoken):
-
+def start_ngrok_http(tunnel_port, ngrok_authtoken):
+    # Check if ngrok is installed
     if not shutil.which('ngrok'):
-        os.system('wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz')
-        os.system('tar -xvzf ngrok-v3-stable-linux-amd64.tgz -C /usr/local/bin')
+        os.system('wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz -P /content')
+        os.system('tar -xvzf /content/ngrok-v3-stable-linux-amd64.tgz -C /content')
+        os.system('mv /content/ngrok /usr/local/bin/')
         os.remove('/content/ngrok-v3-stable-linux-amd64.tgz')
         
-os.system(f'ngrok config add-authtoken "{ngrock_authtoken}"')
+    # Set ngrok authtoken
+    os.system(f'ngrok config add-authtoken "{ngrok_authtoken}"')
 
-    # Start Ngrok tunnel
+    # Start ngrok tunnel
     os.system(f'ngrok http {tunnel_port} &')
     time.sleep(2)
+    
+    # Get the public URL
     tunnel_url = os.popen('curl -s http://localhost:4040/api/tunnels').read()
     url_data = json.loads(tunnel_url)
     public_url = url_data['tunnels'][0]['public_url']
     
     return public_url
 
-def start_ngrok_tcp(tunnel_port, ngrock_authtoken):
-
+def start_ngrok_tcp(tunnel_port, ngrok_authtoken):
+    # Check if ngrok is installed
     if not shutil.which('ngrok'):
-        os.system('wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz')
-        os.system('tar -xvzf ngrok-v3-stable-linux-amd64.tgz -C /usr/local/bin')
+        os.system('wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz -P /content')
+        os.system('tar -xvzf /content/ngrok-v3-stable-linux-amd64.tgz -C /content')
+        os.system('mv /content/ngrok /usr/local/bin/')
         os.remove('/content/ngrok-v3-stable-linux-amd64.tgz')
         
-os.system(f'ngrok config add-authtoken "{ngrock_authtoken}"')
+    # Set ngrok authtoken
+    os.system(f'ngrok config add-authtoken "{ngrok_authtoken}"')
 
-    # Start Ngrok tunnel
+    # Start ngrok tunnel
     os.system(f'ngrok tcp {tunnel_port} &')
     time.sleep(2)
+    
+    # Get the public URL
     tunnel_url = os.popen('curl -s http://localhost:4040/api/tunnels').read()
     url_data = json.loads(tunnel_url)
     public_url = url_data['tunnels'][0]['public_url']
