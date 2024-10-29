@@ -9,7 +9,7 @@ from IPython.display import HTML
 
 
 ####################
-# Install rTorrent #
+# rTorrent Setup's #
 ####################
 
 def install_rtorrent(name="flood"):
