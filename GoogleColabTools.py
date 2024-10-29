@@ -12,7 +12,7 @@ from IPython.display import HTML
 # Install rTorrent #
 ####################
 
-def install_rtorrent(name="rutorrent"):
+def install_rtorrent(name="flood"):
     if name == "flood":
         # Install rTorrent with Flood WEB UI
         if not shutil.which('rtorrent'):
@@ -26,7 +26,7 @@ def install_rtorrent(name="rutorrent"):
             os.system('apt-get update')
             os.system('apt-get install -y rtorrent mediainfo sox screen php php-fpm php-json php-curl php-xml apache2 libapache2-mod-php')
             os.system('pip install cloudscraper')
-            os.system('wget "" -O "/root/.rtorrent.rc"')
+            os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/rtorrent.rc" -O "/root/.rtorrent.rc"')
             subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
     
 
