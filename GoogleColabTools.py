@@ -5,6 +5,7 @@ import time
 import json
 import shutil
 import subprocess
+import urllib.request
 from IPython.display import HTML
 
 
@@ -28,6 +29,27 @@ def install_rtorrent(name="flood"):
             os.system('pip install cloudscraper')
             os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/rtorrent.rc" -O "/root/.rtorrent.rc"')
             subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
+
+def install_rtorrent_unstable():
+    
+    # Install dependencies (needs sudo/root privileges)
+    os.system("apt-get update")
+    os.system("apt-get install -y build-essential pkg-config libncurses5-dev libcurl4-openssl-dev libxml2-dev")
+    
+    libtorrent_url = "https://github.com/rakshasa/rtorrent-archive/raw/master/libtorrent-0.14.0.tar.gz"
+    urllib.request.urlretrieve(libtorrent_url, "libtorrent-0.14.0.tar.gz")
+    os.system("tar -xzvf libtorrent-0.14.0.tar.gz")
+    os.chdir("libtorrent-0.14.0")
+    os.system("./autogen.sh && ./configure && make && make install")
+    os.chdir("..")
+    
+    rtorrent_url = "https://github.com/rakshasa/rtorrent-archive/raw/master/rtorrent-0.10.0.tar.gz"
+    urllib.request.urlretrieve(rtorrent_url, "rtorrent-0.10.0.tar.gz")
+    os.system("")
+    os.chdir("rtorrent-0.10.0")
+    os.system("./autogen.sh && ./configure && make && make install")
+    os.chdir("..")
+    os.system("ldconfig")
     
 
 ################
