@@ -15,14 +15,14 @@ from IPython.display import HTML
 
 def install_rtorrent(name="flood"):
     if name == "flood":
-        # Install rTorrent with Flood WEB UI
+        # Installing Rtorrent with Flood WEB UI
         if not shutil.which('rtorrent'):
             os.system('apt-get install rtorrent screen mediainfo -y')
             os.system('wget "" -O "/root/.rtorrent.rc"')
             subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
 
     elif name == "rutorrent":
-        # Install rTorrent with ruTorrent WEB UI
+        # Installing Rtorrent with ruTorrent WEB UI
         if not shutil.which('rtorrent'):
             os.system('apt-get update')
             os.system('apt-get install -y rtorrent mediainfo sox screen php php-fpm php-json php-curl php-xml apache2 libapache2-mod-php')
@@ -32,7 +32,7 @@ def install_rtorrent(name="flood"):
 
 def install_rtorrent_unstable():
     
-    # Install dependencies (needs sudo/root privileges)
+    # Installing Rtorrent Unstable 
     os.system("apt-get update")
     os.system("apt-get install -y build-essential pkg-config libncurses5-dev libcurl4-openssl-dev libxml2-dev")
     
