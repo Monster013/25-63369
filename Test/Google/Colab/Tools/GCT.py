@@ -143,7 +143,7 @@ def start_cloudflared_tcp(tunnel_port):
     with open(log_file_path, 'r') as file:
         log_content = file.read()
         
-    pattern = r'tcp://(.*?\.trycloudflare\.com)'
+    pattern = r'https://(.*?\.trycloudflare\.com)'
     urls = re.findall(pattern, log_content)
 
     if urls:
