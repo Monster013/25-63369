@@ -104,7 +104,7 @@ def start_ngrok_tcp(tunnel_port, ngrok_authtoken):
 # Argotunnal  Setup #
 #####################
 
-def start_cloudflared(tunnel_port):
+def start_cloudflared_http(tunnel_port):
     if not shutil.which('cloudflared'):
         os.system('curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb -o cloudflared.deb')
         os.system('sudo dpkg -i cloudflared.deb')
@@ -112,6 +112,30 @@ def start_cloudflared(tunnel_port):
 
     # Start the cloudflared tunnel
     subprocess.Popen(['cloudflared', 'tunnel', '--url', f'http://localhost:{tunnel_port}', '--logfile', f'/root/cloudflared.{tunnel_port}.log'])
+    time.sleep(5)
+
+    # Now find the cloudflared URL
+    log_file_path = f'/root/cloudflared.{tunnel_port}.log'
+    with open(log_file_path, 'r') as file:
+        log_content = file.read()
+        
+    pattern = r'https://(.*?\.trycloudflare\.com)'
+    urls = re.findall(pattern, log_content)
+
+    if urls:
+        return f'https://{urls[-1]}'
+    else:
+        return ' Something is worng, Please run again...'
+
+
+def start_cloudflared_tcp(tunnel_port):
+    if not shutil.which('cloudflared'):
+        os.system('curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb -o cloudflared.deb')
+        os.system('sudo dpkg -i cloudflared.deb')
+        os.remove('/content/cloudflared.deb')
+
+    # Start the cloudflared tunnel
+    subprocess.Popen(['cloudflared', 'tunnel', '--url', f'tcp://localhost:{tunnel_port}', '--logfile', f'/root/cloudflared.{tunnel_port}.log'])
     time.sleep(5)
 
     # Now find the cloudflared URL
