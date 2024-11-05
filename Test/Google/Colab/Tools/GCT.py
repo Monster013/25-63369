@@ -23,8 +23,8 @@ def install_rtorrent(name="flood"):
             os.system('unzip "/content/rTorrent.zip" -d "/content/Tools"')
             os.remove('/content/rTorrent.zip')
     
-    subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
-    subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', 'Tools/Flood'])
+        subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
+        subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', 'Tools/Flood'])
 
     elif name == "rutorrent":
         # Installing Rtorrent with ruTorrent UI
