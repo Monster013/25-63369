@@ -22,9 +22,8 @@ def install_rtorrent(name="flood"):
             os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/system/config/rTorrent.zip" -O "/content/rTorrent.zip"')
             os.system('unzip "/content/rTorrent.zip" -d "/content/Tools"')
             os.remove('/content/rTorrent.zip')
-    
-        subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
-        subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', 'Tools/Flood'])
+            subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
+            subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', 'Tools/Flood'])
 
     elif name == "rutorrent":
         # Installing Rtorrent with ruTorrent UI
@@ -145,7 +144,7 @@ def start_localhost_run(tunnel_port):
     subprocess.Popen(["ssh", "-o", "StrictHostKeyChecking=no", "-R", f"80:localhost:{tunnel_port}", "localhost.run"], 
                      stdout=open("output.txt", "w"), stderr=subprocess.STDOUT)
     time.sleep(1)
-    os.system('sudo apt-get update')
+    os.system('sudo apt update')
     with open('output.txt', 'r') as file:
         localhost_tunnel = file.read()
     url = re.search(r'https://[a-zA-Z0-9]+\.lhr\.life', localhost_tunnel)
