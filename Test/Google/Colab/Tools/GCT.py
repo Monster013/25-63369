@@ -104,7 +104,7 @@ def start_ngrok_tcp(tunnel_port, ngrok_authtoken):
 # Argotunnal  Setup #
 #####################
 
-def start_cloudflared_http(tunnel_port):
+def start_cloudflared(tunnel_port):
     if not shutil.which('cloudflared'):
         os.system('curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb -o cloudflared.deb')
         os.system('sudo dpkg -i cloudflared.deb')
@@ -127,30 +127,32 @@ def start_cloudflared_http(tunnel_port):
     else:
         return ' Something is worng, Please run again...'
 
+#######################
+# LocalHost.run Setup #
+#######################
 
-def start_cloudflared_tcp(tunnel_port):
-    if not shutil.which('cloudflared'):
-        os.system('curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb -o cloudflared.deb')
-        os.system('sudo dpkg -i cloudflared.deb')
-        os.remove('/content/cloudflared.deb')
-
-    # Start the cloudflared tunnel
-    subprocess.Popen(['cloudflared', 'tunnel', '--url', f'tcp://localhost:{tunnel_port}', '--logfile', f'/root/cloudflared.{tunnel_port}.log'])
-    time.sleep(5)
-
-    # Now find the cloudflared URL
-    log_file_path = f'/root/cloudflared.{tunnel_port}.log'
-    with open(log_file_path, 'r') as file:
-        log_content = file.read()
-        
-    pattern = r'https://(.*?\.trycloudflare\.com)'
-    urls = re.findall(pattern, log_content)
-
-    if urls:
-        return f'tcp://{urls[-1]}'
+def start_localhost_run(tunnel_port):
+    # Connect LocalHost.run Tunnel 
+    os.system("apt install -y openssh-client")
+    os.system("mkdir -p /root/.ssh")
+    os.system("touch /root/.ssh/known_hosts")
+    os.system('ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -f /root/.ssh/id_rsa -N ""')
+    subprocess.Popen(["ssh", "-o", "StrictHostKeyChecking=no", "-R", f"80:localhost:{tunnel_port}", "localhost.run"], 
+                     stdout=open("output.txt", "w"), stderr=subprocess.STDOUT)
+    time.sleep(1)
+    with open('output.txt', 'r') as file:
+        localhost_tunnel = file.read()
+    url = re.search(r'https://[a-zA-Z0-9]+\.lhr\.life', localhost_tunnel)
+    
+    if url:
+        localhost_url = url.group()
     else:
-        return ' Something is worng, Please run again...'
-                
+        localhost_url = None
+    
+    time.sleep(1)
+    os.remove('output.txt')
+    return localhost_url
+
 ########################
 # Button  Style  Setup #
 ########################
