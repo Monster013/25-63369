@@ -15,14 +15,19 @@ from IPython.display import HTML
 
 def install_rtorrent(name="flood"):
     if name == "flood":
-        # Installing Rtorrent with Flood WEB UI
+        # Installing Rtorrent with Flood UI
         if not shutil.which('rtorrent'):
             os.system('apt-get install rtorrent screen mediainfo -y')
-            os.system('wget "" -O "/root/.rtorrent.rc"')
-            subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
+            os.system('npm install --global flood')
+            os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/system/config/rTorrent.zip" -O "/content/rTorrent.zip"')
+            os.system('unzip "/content/rTorrent.zip" -d "/content/Tools"')
+            os.remove('/content/rTorrent.zip')
+    
+    subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
+    subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', 'Tools/Flood'])
 
     elif name == "rutorrent":
-        # Installing Rtorrent with ruTorrent WEB UI
+        # Installing Rtorrent with ruTorrent UI
         if not shutil.which('rtorrent'):
             os.system('apt-get update')
             os.system('apt-get install -y rtorrent mediainfo sox screen php php-fpm php-json php-curl php-xml apache2 libapache2-mod-php')
