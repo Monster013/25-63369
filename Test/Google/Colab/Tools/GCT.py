@@ -145,7 +145,7 @@ def start_localhost_run(tunnel_port):
     subprocess.Popen(["ssh", "-o", "StrictHostKeyChecking=no", "-R", f"80:localhost:{tunnel_port}", "localhost.run"], 
                      stdout=open("output.txt", "w"), stderr=subprocess.STDOUT)
     time.sleep(1)
-    print('Saved output.txt File ...')
+    os.system('sudo apt-get update')
     with open('output.txt', 'r') as file:
         localhost_tunnel = file.read()
     url = re.search(r'https://[a-zA-Z0-9]+\.lhr\.life', localhost_tunnel)
