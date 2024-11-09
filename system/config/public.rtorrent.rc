@@ -1,7 +1,7 @@
 
 # Disk & Memory
 directory = /content/drive/MyDrive/Downloads
-session = /content/tools/rTorrent/session
+session = /content/Tools/rTorrent/Session
 
 # Incoming Connections (Port Range)
 port_range = 40000-50000
