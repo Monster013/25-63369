@@ -129,9 +129,9 @@ def generate_smbbcode(screenshot_links, media_info):
     mediainfo = ''.join(lines)
     mediainfo = mediainfo.replace('General', '[quote]\n[b][color=green]General[/color][/b]\n[font=Courier New]')
     mediainfo = mediainfo.replace('Video Track', '[/font]\n\n[b][color=blue]Video Track[/color][/b]\n[font=Courier New]')
-    mediainfo = mediainfo.replace('Audio Tracks#', '[/font]\n\n[b][color=Orange]Audio Tracks[/color][/b]\n[font=Courier New]', 1)
+    mediainfo = mediainfo.replace('Audio Tracks#', '[/font]\n\n[b][color=Orange]Audio Tracks[/color][/b][font=Courier New]', 1)
     mediainfo = mediainfo.replace('Audio Tracks#', '')
-    mediainfo = mediainfo.replace('Subtitles#', '[/font]\n\n[b][color=Teal]Subtitles[/color][/b]\n[font=Courier New]')
+    mediainfo = mediainfo.replace('Subtitles#', '[/font]\n\n[b][color=Teal]Subtitles[/color][/b][font=Courier New]')
     mediainfo = mediainfo.replace('Subtitles#', '')
     mediainfo += '[/font][/quote]'
 
