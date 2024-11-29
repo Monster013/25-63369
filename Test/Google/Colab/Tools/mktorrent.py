@@ -130,9 +130,10 @@ def generate_smbbcode(screenshot_links, media_info):
     mediainfo = mediainfo.replace('General', '[quote]\n[b][color=green]General[/color][/b]\n[font=Courier New]')
     mediainfo = mediainfo.replace('Video Track', '[/font]\n\n[b][color=blue]Video Track[/color][/b]\n[font=Courier New]')
     mediainfo = mediainfo.replace('Audio Tracks#', '[/font]\n\n[b][color=Orange]Audio Tracks[/color][/b][font=Courier New]', 1)
-    mediainfo = mediainfo.replace('Audio Tracks#', '')
-    mediainfo = mediainfo.replace('Subtitles#', '[/font]\n\n[b][color=Teal]Subtitles[/color][/b][font=Courier New]')
-    mediainfo = mediainfo.replace('Subtitles#', '')
+    mediainfo = mediainfo.replace('Subtitles#', '[/font]\n\n[b][color=Teal]Subtitles[/color][/b]\n[font=Courier New]')
+    filtered_lines = [line for line in mediainfo.splitlines() if not line.startswith("Audio Tracks#")]
+    filtered_lines = [line for line in mediainfo.splitlines() if not line.startswith("Subtitles#")]
+    mediainfo = '\n'.join(filtered_lines)
     mediainfo += '[/font][/quote]'
 
     return file_name, screenshot_bbcode, mediainfo
