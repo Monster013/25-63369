@@ -55,28 +55,28 @@ def get_piece_size(file_or_directory, custom_piece_size):
 ########################
 
 
-def generate_screenshots_and_upload(video_path, start_time, interval_minutes, num_screenshots, output_directory, api_key, quality=1):
-    if not os.path.exists(output_directory):
-        os.makedirs(output_directory)
+def generate_screenshots_and_upload(video_path, num_screenshots, output_directory, api_key, quality=1):
+    os.makedirs(output_folder, exist_ok=True)
+    try:
+        import ffmpeg
+    except ImportError:
+        os.system("pip install ffmpeg-python")
+        import ffmpeg
+        
+    # Probe video file to get duration
+    probe = ffmpeg.probe(video_path)  # Fixed variable name
+    duration = float(probe['format']['duration'])
 
-    image_urls = []
-    interval_seconds = interval_minutes * 60
+    # Adjust duration and calculate timestamps
+    adjusted_duration = math.floor(duration) - 300
+    timestamps = [adjusted_duration / num_screenshots * i for i in range(1, num_screenshots + 1)]
 
-    for i in range(num_screenshots):
-        timestamp = start_time + i * interval_seconds
-        hours, remainder = divmod(timestamp, 3600)
-        minutes, seconds = divmod(remainder, 60)
-        timestamp_str = f"{hours:02}:{minutes:02}:{seconds:02}"  # Format as HH:MM:SS
-        output_path = os.path.join(output_directory, f"screenshot_{i+1}.png")
-
-        command = (
-            f'ffmpeg -ss {timestamp_str} -i "{video_path}" '
-            f'-vframes 1 -q:v {quality} "{output_path}"'
-        )
-        result = os.system(command)
-
+    # Generate screenshots
+    for i, timestamp in enumerate(timestamps, start=1):
+        output_path = os.path.join(output_folder, f"screenshot_{i:02d}.png")
+        result = os.system(f'ffmpeg -ss {timestamp} -i "{video_path}" -vframes 1 -q:v {quality} "{output_path}"')
         if result != 0:
-            print(f"Error generating screenshot at {timestamp_str}.")
+            print(f"Error generating screenshot at {timestamp}.")
             continue
 
         try:
