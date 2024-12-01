@@ -1,4 +1,5 @@
 import os
+import math
 import base64
 import requests
 import shutil
@@ -64,16 +65,15 @@ def generate_screenshots_and_upload(video_path, num_screenshots, output_director
         import ffmpeg
         
     # Probe video file to get duration
-    probe = ffmpeg.probe(video_path)  # Fixed variable name
+    image_urls = []
+    probe = ffmpeg.probe(video_path)
     duration = float(probe['format']['duration'])
-
-    # Adjust duration and calculate timestamps
     adjusted_duration = math.floor(duration) - 300
     timestamps = [adjusted_duration / num_screenshots * i for i in range(1, num_screenshots + 1)]
 
     # Generate screenshots
     for i, timestamp in enumerate(timestamps, start=1):
-        output_path = os.path.join(output_folder, f"screenshot_{i:02d}.png")
+        output_path = os.path.join(output_directory, f"screenshot_{i:02d}.png")
         result = os.system(f'ffmpeg -ss {timestamp} -i "{video_path}" -vframes 1 -q:v {quality} "{output_path}"')
         if result != 0:
             print(f"Error generating screenshot at {timestamp}.")
