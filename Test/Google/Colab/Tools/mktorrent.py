@@ -57,7 +57,7 @@ def get_piece_size(file_or_directory, custom_piece_size):
 
 
 def generate_screenshots_and_upload(video_path, num_screenshots, output_directory, api_key, quality=2):
-    os.makedirs(output_folder, exist_ok=True)
+    os.makedirs(output_directory, exist_ok=True)
     try:
         import ffmpeg
     except ImportError:
