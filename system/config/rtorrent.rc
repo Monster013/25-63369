@@ -2,18 +2,13 @@
 # rTorrent Config
 directory = /home/de3pm/MyDrive/Downloads
 session = /home/de3pm/Tools/rTorrent/session
-
-# Incoming Connections (Port Range)
+check_hash = yes
 port_range = 40000-50000
 port_random = yes
-
-# Decentralized Peer Discovery
 dht.mode.set = auto
 protocol.pex.set = no
 trackers.use_udp.set = no
 dht_port = 6881
-
-# Peers & Slot Availability
 min_peers = 1
 max_peers = 100
 min_peers_seed = 1
@@ -26,8 +21,5 @@ trackers.numwant.set = 100
 network.http.max_open.set = 50
 network.max_open_files.set = 600
 network.max_open_sockets.set = 300
-
-# Enable encryption
 encryption = allow_incoming,try_outgoing,enable_retry
-
-# SCGI localscgi_local = /home/de3pm/Tools/rTorrent/rtorrent.sock
+scgi_local = /home/de3pm/Tools/rTorrent/rtorrent.sock
