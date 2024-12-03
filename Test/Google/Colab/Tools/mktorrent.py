@@ -34,11 +34,11 @@ def calculate_piece_size(file_or_directory):
         return 19  # 512 KiB
     elif file_size < 2 * 2**30:  # 1.0GiB to 2.0GiB
         return 20  # 1 MiB
-    elif file_size < 4 * 2**30:  # 2.0GiB to 4.0GiB
+    elif file_size < 8 * 2**30:  # 2.0GiB to 8.0GiB
         return 21  # 2 MiB
-    elif file_size < 8 * 2**30:  # 4.0GiB to 8.0GiB
+    elif file_size < 25 * 2**30:  # 4.0GiB to 8.0GiB
         return 22  # 4 MiB
-    elif file_size < 16 * 2**30:  # 8.0GiB to 16.0GiB
+    elif file_size < 40 * 2**30:  # 8.0GiB to 16.0GiB
         return 23  # 8 MiB
     elif file_size < 50 * 2**30:  # 16.0GiB to 50.0GiB
         return 24  # 16 MiB
@@ -84,7 +84,7 @@ def generate_screenshots_and_upload(video_path, num_screenshots, output_director
                 img_base64 = base64.b64encode(file.read()).decode('utf-8')
 
             payload = {"key": api_key, "image": img_base64}
-            response = requests.post("https://api.imgbb.com/1/upload", data=payload)
+            response = requests.post("https://www.imageride.net/api/1/upload", data=payload)
 
             if response.status_code == 200:
                 image_url = response.json()["data"]["url"]
