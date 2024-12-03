@@ -1,7 +1,7 @@
 
 # rTorrent Config
-directory = /content/drive/MyDrive
-session = /content/rTorrent/session
+directory = /home/de3pm/MyDrive/Downloads
+session = /home/de3pm/MyDrive/Application/rTorrent/session
 check_hash = yes
 port_range = 40000-50000
 port_random = yes
