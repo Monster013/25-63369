@@ -1,7 +1,7 @@
 
 # rTorrent Config
 directory = /home/de3pm/MyDrive/Downloads
-session = /home/de3pm/MyDrive/Application/rTorrent/session
+session = /home/de3pm/Tools/rTorrent/session
 check_hash = yes
 port_range = 40000-50000
 port_random = yes
@@ -21,3 +21,4 @@ network.max_open_files.set = 600
 network.max_open_sockets.set = 300
 encryption = allow_incoming,try_outgoing,enable_retry
 scgi_port = 127.0.0.1:5000
+scgi_local = Tools/rTorrent/rtorrent.sock
