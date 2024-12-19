@@ -15,7 +15,7 @@ def upload_file(file_path, api_token, folder_id=""):
     upload_url = f"https://{server}.gofile.io/contents/uploadfile"
     file_size = os.path.getsize(file_path)
     file_name = os.path.basename(file_path)
-    print(f"⚡ {Fore.GERRN} Uploading Prosesing:...{Style.RESET_ALL}\n")
+    print(f"⚡ {Fore.GREEN} Uploading Prosesing:...{Style.RESET_ALL}\n")
 
     with open(file_path, "rb") as file, tqdm(total=file_size, unit="B", unit_scale=True, bar_format='{rate_fmt}{postfix} {l_bar}{bar} {n_fmt}/{total_fmt} : {remaining}', colour='green') as progress_bar:
         encoder = MultipartEncoder(fields={"file": (file_name, file), "folderId": folder_id})
@@ -26,7 +26,7 @@ def upload_file(file_path, api_token, folder_id=""):
 
     if response.ok:
         data = response.json().get("data", {})
-        Print(f"✅ {Fore.GERRN} Uploading Completed...{Style.RESET_ALL}")
+        Print(f"✅ {Fore.GREEN} Uploading Completed...{Style.RESET_ALL}")
         print("\n╭───────────────────────────────────────────╮")
         print(f"│ {Fore.YELLOW}File:{Style.RESET_ALL} {data.get('name', 'Unknown')}")
         print(f"│ {Fore.YELLOW}Download page:{Style.RESET_ALL} {data.get('downloadPage', 'N/A')}")
