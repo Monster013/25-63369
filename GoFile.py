@@ -26,7 +26,7 @@ def upload_file(file_path, api_token, folder_id=""):
 
     if response.ok:
         data = response.json().get("data", {})
-        Print(f"✅ {Fore.GREEN} Uploading Completed...{Style.RESET_ALL}")
+        print(f"✅ {Fore.GREEN} Uploading Completed...{Style.RESET_ALL}")
         print("\n╭───────────────────────────────────────────╮")
         print(f"│ {Fore.YELLOW}File:{Style.RESET_ALL} {data.get('name', 'Unknown')}")
         print(f"│ {Fore.YELLOW}Download page:{Style.RESET_ALL} {data.get('downloadPage', 'N/A')}")
