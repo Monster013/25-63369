@@ -15,7 +15,7 @@ def upload_file(file_path, api_token, folder_id=""):
     file_size = os.path.getsize(file_path)
     file_name = os.path.basename(file_path)
 
-    with open(file_path, "rb") as file, tqdm(total=file_size, unit="B", unit_scale=True, desc="Uploading progress") as progress_bar:
+    with open(file_path, "rb") as file, tqdm(total=file_size, unit="B", unit_scale=True, bar_format='Uploading : {rate_fmt}{postfix} {l_bar}{bar}| {n_fmt}/{total_fmt} : {remaining}', colour='green') as progress_bar:
         encoder = MultipartEncoder(fields={"file": (file_name, file), "folderId": folder_id})
         monitor = MultipartEncoderMonitor(encoder, lambda m: progress_bar.update(m.bytes_read - progress_bar.n))
         headers = {"Authorization": f"Bearer {api_token}", "Content-Type": monitor.content_type}
@@ -25,7 +25,7 @@ def upload_file(file_path, api_token, folder_id=""):
         data = response.json().get("data", {})
         print("\n╭───────────────────────────────────────────╮")
         print(f"│ {Fore.YELLOW}File:{Style.RESET_ALL} {data.get('name', 'Unknown')}")
-        print(f"│ {Fore.YELLOW}Download page:{Style.RESET_ALL} {data.get('downloadPage', 'N/A')} │")
+        print(f"│ {Fore.YELLOW}Download page:{Style.RESET_ALL} {data.get('downloadPage', 'N/A')}")
         print("╰───────────────────────────────────────────╯")
     else:
         print("\nUpload failed!", response.text)
