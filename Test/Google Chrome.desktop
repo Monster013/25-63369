@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Chrome
+Comment=Access the Internet
+Exec=/usr/bin/google-chrome-stable --no-sandbox
+Icon=google-chrome
+Path=/root/Applications
+Terminal=false
+StartupNotify=true
