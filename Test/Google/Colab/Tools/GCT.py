@@ -6,7 +6,7 @@ import json
 import shutil
 import subprocess
 import urllib.request
-from IPython.display import HTML
+from IPython.display import display, HTML, clear_output
 
 
 ####################
@@ -28,12 +28,29 @@ def install_rtorrent(name="flood"):
     elif name == "rutorrent":
         # Installing Rtorrent with ruTorrent UI
         if not shutil.which('rtorrent'):
+            print("Installing RTorrent. & Required Package's ...")
             os.system('apt-get update')
             os.system('apt-get install -y rtorrent mediainfo sox screen php php-fpm php-json php-curl php-xml apache2 libapache2-mod-php')
             os.system('pip install cloudscraper')
             os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/rtorrent.rc" -O "/root/.rtorrent.rc"')
             subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
 
+        clear_output()
+        if not os.path.exists("/var/www/html/rutorrent"):
+            print("Setting up ruTorrent...")
+            os.makedirs("/var/www/html/rutorrent", mode=0o777)
+            os.system('wget -qO- https://github.com/Novik/ruTorrent/archive/refs/tags/v5.1.5.tar.gz | tar xz -C /tmp')
+            os.system('mv /tmp/ruTorrent-5.1.5/* /var/www/html/rutorrent/')
+            os.system('wget "https://raw.githubusercontent.com/Monster013/25-63369/refs/heads/main/rutorrent.conf" -O "/etc/apache2/sites-available/rutorrent.conf"')
+            shutil.rmtree("/tmp/ruTorrent-5.1.5")
+            print("ruTorrent setup complete.")
+            
+        clear_output()
+        if not shutil.which('dumptorrent'):
+            os.system('wget "https://bit.ly/dumptorrent" -O dumptorrent')
+            os.system('chmod +x dumptorrent')
+            os.system('sudo mv dumptorrent /usr/local/bin/')
+            
 def install_rtorrent_unstable():
     
     # Installing Rtorrent Unstable 
