@@ -14,42 +14,73 @@ from IPython.display import display, HTML, clear_output
 ####################
 
 def install_rtorrent(name="flood"):
+    """Install Rtorrent and optionally Flood UI."""
+    # Install and start Rtorrent
+    if not shutil.which('rtorrent'):
+        os.system('apt-get update && apt-get install rtorrent screen mediainfo -y')
+        print("Rtorrent installed successfully.")
+        
+    # Check if Rtorrent is running, and start if necessary
+    try:
+        output = subprocess.check_output("ps aux | grep '[r]torrent'", shell=True, text=True)
+        if not output.strip():
+            print("Rtorrent is not running. Starting it...")
+            os.system("pkill rtorrent")
+            subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
+        else:
+            print("Rtorrent is already running.")
+    except subprocess.CalledProcessError:
+        print("Rtorrent is not running. Starting it...")
+        os.system("pkill rtorrent")
+        subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
+
+    # Install and start Flood if specified
     if name == "flood":
-        # Installing Rtorrent with Flood UI
-        if not shutil.which('rtorrent'):
-            os.system('apt-get install rtorrent screen mediainfo -y')
+        if not shutil.which('flood'):
             os.system('npm install --global flood')
+            print("Flood UI installed successfully.")
             os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/system/config/rTorrent.zip" -O "/content/rTorrent.zip"')
             os.system('unzip "/content/rTorrent.zip" -d "/content/Tools"')
             os.remove('/content/rTorrent.zip')
-            subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
-            subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', 'Tools/Flood'])
+            print("Flood configuration applied.")
+       
+        # Check if Flood is running, and start if necessary
+        try:
+            output = subprocess.check_output("ps aux | grep '[f]lood'", shell=True, text=True)
+            if not output.strip():
+                print("Flood UI is not running. Starting it...")
+                subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', '/content/Tools/Flood'])
+            else:
+                print("Flood UI is already running.")
+        except subprocess.CalledProcessError:
+            print("Flood UI is not running. Starting it...")
+            subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', '/content/Tools/Flood'])
 
+    # Rutorrent UI Setup
     elif name == "rutorrent":
-        # Installing Rtorrent with ruTorrent UI
-        if not shutil.which('rtorrent'):
-            print("Installing RTorrent. & Required Package's ...")
-            os.system('apt-get update')
-            os.system('apt-get install -y rtorrent mediainfo sox screen php php-fpm php-json php-curl php-xml apache2 libapache2-mod-php')
+        if not shutil.which('php'):
+            print("Installing Rtorrent dependencies for Rutorrent...")
+            os.system('apt-get install -y sox php php-fpm php-json php-curl php-xml apache2 libapache2-mod-php')
             os.system('pip install cloudscraper')
             os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/rtorrent.rc" -O "/root/.rtorrent.rc"')
-            subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
-
-        clear_output()
+        
+        # Set up Rutorrent
         if not os.path.exists("/var/www/html/rutorrent"):
-            print("Setting up ruTorrent...")
+            print("Setting up Rutorrent...")
             os.makedirs("/var/www/html/rutorrent", mode=0o777)
             os.system('wget -qO- https://github.com/Novik/ruTorrent/archive/refs/tags/v5.1.5.tar.gz | tar xz -C /tmp')
             os.system('mv /tmp/ruTorrent-5.1.5/* /var/www/html/rutorrent/')
             os.system('wget "https://raw.githubusercontent.com/Monster013/25-63369/refs/heads/main/rutorrent.conf" -O "/etc/apache2/sites-available/rutorrent.conf"')
             shutil.rmtree("/tmp/ruTorrent-5.1.5")
-            print("ruTorrent setup complete.")
-            
-        clear_output()
+            print("Rutorrent setup complete.")
+        
+        # Install dumptorrent
         if not shutil.which('dumptorrent'):
+            print("Installing dumptorrent...")
             os.system('wget "https://bit.ly/dumptorrent" -O dumptorrent')
             os.system('chmod +x dumptorrent')
             os.system('sudo mv dumptorrent /usr/local/bin/')
+            print("dumptorrent installed successfully.")
             
 def install_rtorrent_unstable():
     
