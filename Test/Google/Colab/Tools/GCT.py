@@ -64,7 +64,7 @@ def install_rtorrent(name="flood"):
 
     # Install and start Rutorrent UI
     elif name == "rutorrent":
-        if not shutil.which('rtorrent'):
+        if not shutil.which('php'):
             print("Installing Rtorrent dependencies for Rutorrent...")
             os.system('apt-get install -y sox php php-fpm php-json php-curl php-xml apache2 libapache2-mod-php')
             os.system('pip install cloudscraper')
