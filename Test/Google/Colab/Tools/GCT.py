@@ -32,7 +32,7 @@ def install_rtorrent(name="flood"):
         else:
             print("Rtorrent is already running.")
     except subprocess.CalledProcessError:
-        print("Error checking Rtorrent status. Starting it...")
+        print("Rtorrent Starting...")
         os.system("pkill rtorrent")
         subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
 
