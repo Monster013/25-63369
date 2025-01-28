@@ -65,15 +65,12 @@ def install_rtorrent(name="flood"):
     # Install and start Rutorrent UI
     elif name == "rutorrent":       
         # Set up Rutorrent
-        if not os.path.exists("/var/www/html/rutorrent/plugins"):
-            print("Setting up Rutorrent...")
-            os.makedirs("/var/www/html/rutorrent", mode=0o777)
-            os.system('git clone https://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@github.com/Monster013/ruTorrent /var/www/html/rutorrent/')
-                
         if not shutil.which('php'):
+            print("Setting up Rutorrent...")
             print("Installing Rtorrent dependencies for Rutorrent...")
             os.system('apt-get install -y sox php php-fpm php-json php-curl php-xml apache2 libapache2-mod-php')
             os.system('pip install cloudscraper')
+            os.system('git clone https://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@github.com/Monster013/ruTorrent /var/www/html/rutorrent/')
             os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/rtorrent.rc" -O "/root/.rtorrent.rc"')
             print("Rutorrent setup complete.")            
                         
