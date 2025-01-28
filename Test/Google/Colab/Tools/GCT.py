@@ -14,13 +14,15 @@ from IPython.display import display, HTML, clear_output
 ####################
 
 def install_rtorrent(name="flood"):
-    """Install Rtorrent and optionally Flood UI."""
+    """Install Rtorrent and optionally Flood or Rutorrent UI."""
+    
     # Install and start Rtorrent
     if not shutil.which('rtorrent'):
+        print("Installing Rtorrent...")
         os.system('apt-get update && apt-get install rtorrent screen mediainfo -y')
         print("Rtorrent installed successfully.")
         
-    # Check if Rtorrent is running, and start if necessary
+    # Check if rTorrent is running, and start if necessary
     try:
         output = subprocess.check_output("ps aux | grep '[r]torrent'", shell=True, text=True)
         if not output.strip():
@@ -30,15 +32,18 @@ def install_rtorrent(name="flood"):
         else:
             print("Rtorrent is already running.")
     except subprocess.CalledProcessError:
-        print("Rtorrent is not running. Starting it...")
+        print("Error checking Rtorrent status. Starting it...")
         os.system("pkill rtorrent")
         subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
 
-    # Install and start Flood if specified
+    # Install and start Flood UI
     if name == "flood":
         if not shutil.which('flood'):
+            print("Installing Flood UI...")
             os.system('npm install --global flood')
             print("Flood UI installed successfully.")
+            
+            # Configure Flood
             os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/system/config/rTorrent.zip" -O "/content/rTorrent.zip"')
             os.system('unzip "/content/rTorrent.zip" -d "/content/Tools"')
             os.remove('/content/rTorrent.zip')
@@ -49,16 +54,19 @@ def install_rtorrent(name="flood"):
             output = subprocess.check_output("ps aux | grep '[f]lood'", shell=True, text=True)
             if not output.strip():
                 print("Flood UI is not running. Starting it...")
+                os.system("pkill flood")
                 subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', '/content/Tools/Flood'])
+                clear_output()
             else:
                 print("Flood UI is already running.")
         except subprocess.CalledProcessError:
-            print("Flood UI is not running. Starting it...")
+            print("Error checking Flood UI status. Starting it...")
+            os.system("pkill flood")
             subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', '/content/Tools/Flood'])
 
-    # Rutorrent UI Setup
+    # Install and start Rutorrent UI
     elif name == "rutorrent":
-        if not shutil.which('php'):
+        if not shutil.which('rtorrent'):
             print("Installing Rtorrent dependencies for Rutorrent...")
             os.system('apt-get install -y sox php php-fpm php-json php-curl php-xml apache2 libapache2-mod-php')
             os.system('pip install cloudscraper')
@@ -81,6 +89,7 @@ def install_rtorrent(name="flood"):
             os.system('chmod +x dumptorrent')
             os.system('sudo mv dumptorrent /usr/local/bin/')
             print("dumptorrent installed successfully.")
+            clear_output()
             
 def install_rtorrent_unstable():
     
