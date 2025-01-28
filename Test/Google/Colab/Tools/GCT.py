@@ -188,33 +188,6 @@ def start_cloudflared(tunnel_port):
     else:
         return ' Something is worng, Please run again...'
 
-#######################
-# LocalHost.run Setup #
-#######################
-
-def start_localhost_run(tunnel_port):
-    # Connect LocalHost.run Tunnel 
-    os.system("apt install -y openssh-client")
-    os.system("mkdir -p /root/.ssh")
-    os.system("touch /root/.ssh/known_hosts")
-    os.system('ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -f /root/.ssh/id_rsa -N ""')
-    subprocess.Popen(["ssh", "-o", "StrictHostKeyChecking=no", "-R", f"80:localhost:{tunnel_port}", "localhost.run"], 
-                     stdout=open("output.txt", "w"), stderr=subprocess.STDOUT)
-    time.sleep(1)
-    os.system('sudo apt update')
-    with open('output.txt', 'r') as file:
-        localhost_tunnel = file.read()
-    url = re.search(r'https://[a-zA-Z0-9]+\.lhr\.life', localhost_tunnel)
-    
-    if url:
-        localhost_url = url.group()
-    else:
-        localhost_url = None
-    
-    time.sleep(1)
-    os.remove('output.txt')
-    return localhost_url
-
 ########################
 # Button  Style  Setup #
 ########################
