@@ -74,10 +74,8 @@ def install_rtorrent(name="flood"):
         if not os.path.exists("/var/www/html/rutorrent"):
             print("Setting up Rutorrent...")
             os.makedirs("/var/www/html/rutorrent", mode=0o777)
-            os.system('wget -qO- https://github.com/Novik/ruTorrent/archive/refs/tags/v5.1.5.tar.gz | tar xz -C /tmp')
-            os.system('mv /tmp/ruTorrent-5.1.5/* /var/www/html/rutorrent/')
-            os.system('wget "https://raw.githubusercontent.com/Monster013/25-63369/refs/heads/main/rutorrent.conf" -O "/etc/apache2/sites-available/rutorrent.conf"')
-            shutil.rmtree("/tmp/ruTorrent-5.1.5")
+            os.system('git clone https://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@github.com/Monster013/ruTorrent /var/www/html/rutorrent/')
+            # os.system('wget "https://raw.githubusercontent.com/Monster013/25-63369/refs/heads/main/rutorrent.conf" -O "/etc/apache2/sites-available/rutorrent.conf"')
             print("Rutorrent setup complete.")
         
         # Install dumptorrent
