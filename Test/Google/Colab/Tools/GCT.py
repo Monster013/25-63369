@@ -54,14 +54,12 @@ def install_rtorrent(name="flood"):
             output = subprocess.check_output("ps aux | grep '[f]lood'", shell=True, text=True)
             if not output.strip():
                 print("Flood UI is not running. Starting it...")
-                os.system("pkill flood")
                 subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', '/content/Tools/Flood'])
                 clear_output()
             else:
                 print("Flood UI is already running.")
         except subprocess.CalledProcessError:
             print("Error checking Flood UI status. Starting it...")
-            os.system("pkill flood")
             subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', '/content/Tools/Flood'])
 
     # Install and start Rutorrent UI
