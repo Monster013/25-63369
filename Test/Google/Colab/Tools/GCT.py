@@ -75,7 +75,6 @@ def install_rtorrent(name="flood"):
             print("Setting up Rutorrent...")
             os.makedirs("/var/www/html/rutorrent", mode=0o777)
             os.system('git clone https://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@github.com/Monster013/ruTorrent /var/www/html/rutorrent/')
-            # os.system('wget "https://raw.githubusercontent.com/Monster013/25-63369/refs/heads/main/rutorrent.conf" -O "/etc/apache2/sites-available/rutorrent.conf"')
             print("Rutorrent setup complete.")
         
         # Install dumptorrent
