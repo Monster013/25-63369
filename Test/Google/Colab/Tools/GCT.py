@@ -68,10 +68,11 @@ def install_rtorrent(name="flood"):
         if not shutil.which('php'):
             print("Setting up Rutorrent...")
             print("Installing Rtorrent dependencies for Rutorrent...")
-            os.system('apt-get install -y sox php php-fpm php-json php-curl php-xml apache2 libapache2-mod-php')
+            os.system('apt-get install -y sox php php-fpm php-json php-curl php-xml php-mbstring apache2 libapache2-mod-php')
             os.system('pip install cloudscraper')
-            os.system('git clone https://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@github.com/Monster013/ruTorrent /var/www/html/rutorrent/')
+            os.system('git clone https://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@github.com/Monster013/ruTorrent rutorrent/')
             os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/rtorrent.rc" -O "/root/.rtorrent.rc"')
+            os.system('mv rutorrent/ /var/www/html/rutorrent/')
             print("Rutorrent setup complete.")            
                         
         # Install dumptorrent
