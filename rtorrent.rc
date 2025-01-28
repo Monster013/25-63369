@@ -1,7 +1,7 @@
 
 # rTorrent Config
 directory = /content
-session = /var/www/html/rutorrent/rTorrent/session
+session = /var/run/rTorrent/session
 check_hash = yes
 port_range = 40000-50000
 port_random = yes
