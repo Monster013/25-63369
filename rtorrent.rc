@@ -1,4 +1,3 @@
-
 # rTorrent Config
 directory = /content
 session = /var/run/rTorrent/session
@@ -20,4 +19,6 @@ network.http.max_open.set = 50
 network.max_open_files.set = 600
 network.max_open_sockets.set = 300
 encryption = allow_incoming,try_outgoing,enable_retry
-scgi_port = /var/run/rTorrent/rtorrent.sock
+
+# Use scgi_local for a UNIX socket
+scgi_local = /var/run/rTorrent/rtorrent.sock
