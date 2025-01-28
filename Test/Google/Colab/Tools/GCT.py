@@ -22,7 +22,7 @@ def install_rtorrent(name="flood"):
         os.system('apt-get update && apt-get install rtorrent screen mediainfo -y')
         print("Rtorrent installed successfully.")
         
-    # Check if rTorrent is running, and start if necessary
+    # Check if Rtorrent is running, and start if necessary
     try:
         output = subprocess.check_output("ps aux | grep '[r]torrent'", shell=True, text=True)
         if not output.strip():
