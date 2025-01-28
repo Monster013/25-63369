@@ -1,7 +1,7 @@
 
 # rTorrent Config
 directory = /content
-session = /content/rTorrent/session
+session = /root/rTorrent/session
 check_hash = yes
 port_range = 40000-50000
 port_random = yes
@@ -20,4 +20,4 @@ network.http.max_open.set = 50
 network.max_open_files.set = 600
 network.max_open_sockets.set = 300
 encryption = allow_incoming,try_outgoing,enable_retry
-scgi_port = Tools/rTorrent/rtorrent.sock
+scgi_port = /root/rTorrent/rtorrent.sock
