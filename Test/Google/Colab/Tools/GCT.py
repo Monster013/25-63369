@@ -22,14 +22,13 @@ def install_rtorrent_stable():
         print("Rtorrent installed successfully.")
         
     # Check if Rtorrent is running
-    try:
-        output = subprocess.run("ps aux | grep '[r]torrent'", shell=True, text=True, capture_output=True)
-        if not output.stdout.strip():
-            print("Rtorrent is not running. Starting it...")
-            os.system("pkill rtorrent")
-            subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
-        else:
-            print("Rtorrent is already running.")
+    output = subprocess.run("ps aux | grep '[r]torrent'", shell=True, text=True, capture_output=True)
+    if not output.stdout.strip():
+        print("Rtorrent is not running. Starting it...")
+        os.system("pkill rtorrent")
+        subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
+    else:
+        print("Rtorrent is already running.")
    
 def install_rtorrent_unstable():
     
@@ -69,14 +68,13 @@ def install_rtorrent(name="flood"):
             print("Flood UI installed successfully.")
             
         # Check if Flood is running
-        try:
-            output = subprocess.run("ps aux | grep '[f]lood'", shell=True, text=True, capture_output=True)
-            if not output.stdout.strip():
-                print("Flood UI Starting...")
-                subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', '/content/Tools/Flood'])
-                clear_output()
-            else:
-                print("Flood UI is already running.")
+        output = subprocess.run("ps aux | grep '[f]lood'", shell=True, text=True, capture_output=True)
+        if not output.stdout.strip():
+            print("Flood UI Starting...")
+            subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', '/content/Tools/Flood'])
+            clear_output()
+        else:
+            print("Flood UI is already running.")
         
     ################
     # RUTORRENT UI #
