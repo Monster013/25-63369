@@ -80,20 +80,20 @@ def install_rtorrent(name="flood"):
     # RUTORRENT UI #
     ################
     elif name == "rutorrent":       
-        # Set up Rutorrent        
-        if not os.path.exists("/var/www/html/rutorrent"):
-            print("Setting up Rutorrent...")
-            os.system('git clone "https://github.com/Monster013/ruTorrent-v5.1.5-hotfix" rutorrent')
-            os.system('mv rutorrent /var/www/html/')
-            os.system('chmod -R 777 /content')
-            os.system('chmod -R 777 /var/www/html/rutorrent')                    
-        
+        # Set up Rutorrent      
         if not shutil.which('php'):
             print("Installing Rutorrent Required packages...")
             os.system('apt-get install -y sox php php-fpm php-json php-curl php-xml php-mbstring apache2 libapache2-mod-php')
             os.system('pip install cloudscraper')
             os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/rtorrent.rc" -O "/root/.rtorrent.rc"')                      
                         
+        if not os.path.exists("/var/www/html/rutorrent"):
+            print("Setting up Rutorrent...")
+            os.system('git clone "https://github.com/Monster013/ruTorrent-v5.1.5-hotfix" rutorrent')
+            os.system('mv rutorrent /var/www/html/')
+            os.system('chmod -R 777 /content')
+            os.system('chmod -R 777 /var/www/html/rutorrent')                    
+                
         if not shutil.which('dumptorrent'):
             print("Installing dumptorrent...")
             os.system('wget "https://bit.ly/dumptorrent" -O dumptorrent')
