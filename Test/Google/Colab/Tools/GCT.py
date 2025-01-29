@@ -93,7 +93,7 @@ def install_rtorrent(name="flood"):
         # Set up Rutorrent        
         if not os.path.exists("/var/www/html/rutorrent"):
             print("Setting up Rutorrent...")
-            os.system('git clone "https://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@github.com/Monster013/ruTorrent-v5.1.5-hotfix" rutorrent')
+            os.system('git clone "https://github.com/Monster013/ruTorrent-v5.1.5-hotfix" rutorrent')
             os.system('mv rutorrent /var/www/html/')
             os.system('chmod -R 777 /content')
             os.system('chmod -R 777 /var/www/html/rutorrent')                    
