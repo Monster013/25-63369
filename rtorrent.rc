@@ -1,6 +1,6 @@
-# rTorrent Config
+# Rtorrent Config
 directory = /content
-session = /var/run/rTorrent/session
+session = ~/session
 check_hash = yes
 port_range = 40000-50000
 port_random = yes
@@ -19,6 +19,4 @@ network.http.max_open.set = 50
 network.max_open_files.set = 600
 network.max_open_sockets.set = 300
 encryption = allow_incoming,try_outgoing,enable_retry
-
-# Use scgi_local for a UNIX socket
-scgi_local = /var/run/rTorrent/rtorrent.sock
+network.scgi.open_port = 127.0.0.1:5000
