@@ -1,6 +1,6 @@
 
 # Disk & Memory
-directory = /content/drive/MyDrive/Downloads
+directory = /content
 session = /content/Tools/rTorrent/Session
 
 # Incoming Connections (Port Range)
