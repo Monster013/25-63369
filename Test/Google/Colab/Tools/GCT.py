@@ -13,8 +13,7 @@ from IPython.display import display, HTML, clear_output
 # Rtorrent Setup's #
 ####################
 
-def install_rtorrent(name="flood"):
-    """Install Rtorrent and optionally Flood or Rutorrent UI."""
+def install_rtorrent_stable():
     
     # Install and start Rtorrent
     if not shutil.which('rtorrent'):
@@ -31,13 +30,40 @@ def install_rtorrent(name="flood"):
             subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
         else:
             print("Rtorrent is already running.")
-    except subprocess.CalledProcessError:
-        print("Rtorrent Starting...")
+    except subprocess.CalledProcessError:       
         os.system("pkill rtorrent")
         subprocess.Popen(['screen', '-d', '-m', '-fa', '-S', 'rtorrent', 'rtorrent'])
+        print("Rtorrent Started...")
 
+def install_rtorrent_unstable():
+    
+    # Installing Rtorrent Unstable 
+    os.system("apt-get update")
+    os.system("apt-get install -y build-essential pkg-config libncurses5-dev libcurl4-openssl-dev libxml2-dev")
+    
+    libtorrent_url = "https://github.com/rakshasa/rtorrent-archive/raw/master/libtorrent-0.14.0.tar.gz"
+    urllib.request.urlretrieve(libtorrent_url, "libtorrent-0.14.0.tar.gz")
+    os.system("tar -xzvf libtorrent-0.14.0.tar.gz")
+    os.chdir("libtorrent-0.14.0")
+    os.system("./autogen.sh && ./configure && make && make install")
+    os.chdir("..")
+    
+    rtorrent_url = "https://github.com/rakshasa/rtorrent-archive/raw/master/rtorrent-0.10.0.tar.gz"
+    urllib.request.urlretrieve(rtorrent_url, "rtorrent-0.10.0.tar.gz")
+    os.system("")
+    os.chdir("rtorrent-0.10.0")
+    os.system("./autogen.sh && ./configure && make && make install")
+    os.chdir("..")
+    os.system("ldconfig")   
+
+def install_rtorrent(name="flood"):
+    
     # Install and start Flood UI
     if name == "flood":
+
+        # Install Rtorrent
+        install_rtorrent_stable()
+        
         if not shutil.which('flood'):
             print("Installing Flood UI...")
             os.system('npm install --global flood')
@@ -65,14 +91,18 @@ def install_rtorrent(name="flood"):
     # Install and start Rutorrent UI
     elif name == "rutorrent":       
         # Set up Rutorrent
-        if not shutil.which('php'):
+        
+        if not os.path.exists("/var/www/html/rutorrent"):
             print("Setting up Rutorrent...")
-            print("Installing Rtorrent dependencies for Rutorrent...")
+            os.system('git clone "https://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@github.com/Monster013/ruTorrent-v5.1.5-hotfix" rutorrent')
+            os.system('mv rutorrent /var/www/html/')
+            os.system('chmod -R 777 /content /var/www/html/rutorrent')            
+        
+        if not shutil.which('php'):
+            print("Installing Rutorrent Required packages...")
             os.system('apt-get install -y sox php php-fpm php-json php-curl php-xml php-mbstring apache2 libapache2-mod-php')
             os.system('pip install cloudscraper')
-            os.system('git clone https://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@github.com/Monster013/ruTorrent rutorrent/')
             os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/rtorrent.rc" -O "/root/.rtorrent.rc"')
-            os.system('mv rutorrent/ /var/www/html/')
             print("Rutorrent setup complete.")            
                         
         # Install dumptorrent
@@ -83,28 +113,7 @@ def install_rtorrent(name="flood"):
             os.system('sudo mv dumptorrent /usr/local/bin/')
             print("dumptorrent installed successfully.")
             clear_output()
-            
-def install_rtorrent_unstable():
-    
-    # Installing Rtorrent Unstable 
-    os.system("apt-get update")
-    os.system("apt-get install -y build-essential pkg-config libncurses5-dev libcurl4-openssl-dev libxml2-dev")
-    
-    libtorrent_url = "https://github.com/rakshasa/rtorrent-archive/raw/master/libtorrent-0.14.0.tar.gz"
-    urllib.request.urlretrieve(libtorrent_url, "libtorrent-0.14.0.tar.gz")
-    os.system("tar -xzvf libtorrent-0.14.0.tar.gz")
-    os.chdir("libtorrent-0.14.0")
-    os.system("./autogen.sh && ./configure && make && make install")
-    os.chdir("..")
-    
-    rtorrent_url = "https://github.com/rakshasa/rtorrent-archive/raw/master/rtorrent-0.10.0.tar.gz"
-    urllib.request.urlretrieve(rtorrent_url, "rtorrent-0.10.0.tar.gz")
-    os.system("")
-    os.chdir("rtorrent-0.10.0")
-    os.system("./autogen.sh && ./configure && make && make install")
-    os.chdir("..")
-    os.system("ldconfig")
-    
+                
 
 ################
 # Ngrok  Setup #
