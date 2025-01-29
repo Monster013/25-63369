@@ -115,6 +115,7 @@ def install_rtorrent(name="flood"):
         # Start Rtorrent & Rutorrent 
         install_rtorrent_stable()
         os.system('service apache2 start')
+        os.system('service apache2 restart')
         clear_output()
                 
 
