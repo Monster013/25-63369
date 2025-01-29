@@ -1,6 +1,6 @@
 # Rtorrent Config
 directory = /content
-session = ~/session
+session = /content/Tools/rTorrent/session
 check_hash = yes
 port_range = 40000-50000
 port_random = yes
