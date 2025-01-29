@@ -57,29 +57,26 @@ def install_rtorrent_unstable():
     os.system("ldconfig")   
 
 def install_rtorrent(name="flood"):
-    
-    # Install and start Flood UI
-    if name == "flood":
 
+    ############
+    # Flood UI #
+    ############
+    if name == "flood":
         # Install Rtorrent
         install_rtorrent_stable()
-        
         if not shutil.which('flood'):
             print("Installing Flood UI...")
             os.system('npm install --global flood')
-            print("Flood UI installed successfully.")
-            
-            # Configure Flood
             os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/system/config/rTorrent.zip" -O "/content/rTorrent.zip"')
             os.system('unzip "/content/rTorrent.zip" -d "/content/Tools"')
             os.remove('/content/rTorrent.zip')
-            print("Flood configuration applied.")
-       
+            print("Flood UI installed successfully.")
+            
         # Check if Flood is running, and start if necessary
         try:
             output = subprocess.check_output("ps aux | grep '[f]lood'", shell=True, text=True)
             if not output.strip():
-                print("Flood UI is not running. Starting it...")
+                print("Flood UI Starting...")
                 subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', '/content/Tools/Flood'])
                 clear_output()
             else:
@@ -87,8 +84,11 @@ def install_rtorrent(name="flood"):
         except subprocess.CalledProcessError:
             print("Error checking Flood UI status. Starting it...")
             subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', '/content/Tools/Flood'])
+            print("Flood UI Started...")
 
-    # Install and start Rutorrent UI
+    ################
+    # RUTORRENT UI #
+    ################
     elif name == "rutorrent":       
         # Set up Rutorrent        
         if not os.path.exists("/var/www/html/rutorrent"):
@@ -111,8 +111,9 @@ def install_rtorrent(name="flood"):
             print("dumptorrent installed successfully.")
             print("Rutorrent setup complete.")
 
-        # Install Rtorrent
+        # Start Rtorrent & Rutorrent 
         install_rtorrent_stable()
+        os.system('service apache2 start')
         clear_output()
                 
 
