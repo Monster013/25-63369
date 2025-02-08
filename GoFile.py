@@ -115,11 +115,17 @@ def gofile_downloader(gofile_url, downloader):
             print("Starting downloads using {downloader}...\n")
             for file_link in download_links:
                 if downloader == "Aria2c":
-                    !aria2c -c -x 16 --header='cookie: accountToken={token}' '{file_link}'
+                    cmd = ["aria2c", "-c", "-x", "16", "--header", f"cookie: accountToken={token}", file_link]
                 elif downloader == "WGet":
-                    !wget -c --header="cookie: accountToken={token}" "{file_link}"
+                    cmd = ["wget", "-c", "--header", f"cookie: accountToken={token}", file_link]
                 elif downloader == "Curl":
-                    !curl -C - -H "cookie: accountToken={token}" -O "{file_link}"
+                    cmd = ["curl", "-C", "-", "-H", f"cookie: accountToken={token}", "-O", file_link]
+                else:            
+                    continue
+                process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1)
+                for line in process.stdout:
+                    print(line, end="")
+                process.wait()   
                 
     except Exception as e:
         print(f"Error parsing API response: {e}")
