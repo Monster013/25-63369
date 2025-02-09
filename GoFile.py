@@ -74,8 +74,8 @@ def gofile_downloader(gofile_url, downloader):
             sys.exit(1)
 
         token = create_account_response["data"]["token"]
+        os.environ["GOFILE_TOKEN"] = token
         print(f"New Access Token: {token}\n")
-
     else:
         print(f"Using existing token: {token}\n")
 
