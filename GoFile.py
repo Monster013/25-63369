@@ -109,24 +109,9 @@ def gofile_downloader(gofile_url, downloader):
             print(f"File Name: {filename}")
             print(f"Direct URL: {file_link}")
             download_links.append(file_link)
-
-        # Step 3: Download Files 
-        if download_links:
-            print("Starting downloads using {downloader}...\n")
-            for file_link in download_links:
-                if downloader == "Aria2c":
-                    cmd = ["aria2c", "-c", "-x", "16", "--header", f"cookie: accountToken={token}", file_link]
-                elif downloader == "WGet":
-                    cmd = ["wget", "-c", "--header", f"cookie: accountToken={token}", file_link]
-                elif downloader == "Curl":
-                    cmd = ["curl", "-C", "-", "-H", f"cookie: accountToken={token}", "-O", file_link]
-                else:            
-                    continue
-                process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1)
-                for line in process.stdout:
-                    print(line, end="")
-                process.wait()   
-                
+        
+        return download_links
+    
     except Exception as e:
         print(f"Error parsing API response: {e}")
         print(f"Raw Response: {response.text}")
