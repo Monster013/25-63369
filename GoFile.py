@@ -43,11 +43,11 @@ def upload_file(file_path, api_token, folder_id=""):
     else:
         print("\nUpload failed!", response.text)
 
-#####################
-# GoFile Downloader #
-#####################
+###############################
+# GoFile Extract Direct Links #
+###############################
 
-def gofile_downloader(gofile_url, downloader):
+def extract_links(gofile_url):
     
     if not shutil.which("aria2c"):
         os.system("apt-get install -y aria2")
