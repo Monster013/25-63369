@@ -90,7 +90,7 @@ def edit_torrent(torrent_file, output_folder="Torrents/", flags=None):
 ########################
 
 
-def generate_screenshots(video_path, num_screenshots, output_directory, api_key, quality=2):
+def generate_screenshots(video_path, num_screenshots, output_directory, quality=2):
     os.makedirs(output_directory, exist_ok=True)
     try:
         import ffmpeg
