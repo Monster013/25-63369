@@ -90,7 +90,7 @@ def edit_torrent(torrent_file, output_folder="Torrents/", flags=None):
 ########################
 
 
-def generate_screenshots_and_upload(video_path, num_screenshots, output_directory, api_key, quality=2):
+def generate_screenshots(video_path, num_screenshots, output_directory, api_key, quality=2):
     os.makedirs(output_directory, exist_ok=True)
     try:
         import ffmpeg
@@ -102,7 +102,7 @@ def generate_screenshots_and_upload(video_path, num_screenshots, output_director
     image_urls = []
     probe = ffmpeg.probe(video_path)
     duration = float(probe['format']['duration'])
-    adjusted_duration = math.floor(duration) - 300
+    adjusted_duration = math.floor(duration) - 500
     timestamps = [adjusted_duration / num_screenshots * i for i in range(1, num_screenshots + 1)]
 
     # Generate screenshots
@@ -113,20 +113,38 @@ def generate_screenshots_and_upload(video_path, num_screenshots, output_director
             print(f"Error generating screenshot at {timestamp}.")
             continue
 
-      
-def display_first_screenshot(output_directory):
-    first_screenshot_path = os.path.join(output_directory, "screenshot_1.png")
-    if os.path.exists(first_screenshot_path):
-        Image.open(first_screenshot_path).show()
+def upload_images(image_host="Imageride"):
+    # API details
+    API_KEYS = {
+        "Freeimage": "6d207e02198a847aa98d0a2a901485a5",
+        "Imgbb": "c516a4478af7178c2a972e33726debde",
+        "Imageride": "chv_hPz_d469c413d03d3553409d2a7df490b9ac49d601069149d36619969c325dcda1069935a016a2ba54d050fedeec5f8800f0020d5c2c884f928edce2934f1ca7f5b4",
+        "Lookmyimg": "chv_rqe_5b7662f6a29425eca2007889d08da9383cb9ec8e29fa856575dd8b71149ec01d993f78c7e8aa15c74857e7e2637c884029bcb9ec3593c214ef373f06db5415f6",
+        "Onlyimg": "chv_8mI2_4a9a14480a0bd73524e87f7598cc7ce6e71202cd357a54a9720c23cd0eaba8cc53032bc547819bc65281d3fd2f833b55522af4c2dabd57c94043f44fdbee0a3c",
+        "PTScreen": "pts_tDpg_43c54de7c9b2055d161ece8b3e109aa2018814815696749fc66c83d901e6f4973d2a27f80b0cfb0d03a6d2ca1646c5490a0958bd5dda1cc1600ecb8fc86b5d6c"
+    }
 
+    API_URLS = {
+        "Freeimage": "https://freeimage.host/api/1/upload",
+        "Imgbb": "https://api.imgbb.com/1/upload",
+        "Imageride": "https://www.imageride.net/api/1/upload",
+        "Lookmyimg": "https://lookmyimg.com/api/1/upload",
+        "Onlyimg": "https://imgoe.download/api/1/upload",
+        "PTScreen": "https://ptscreens.com/api/1/upload"
+    }
 
-def upload_images_and_generate_bbcode(api_key, folder="/content/screenshots", output_folder="/content/screenshots/uploaddata"):
-    URL = "https://www.imageride.net/api/1/upload"
+    # Validate API choice
+    if image_host not in API_URLS:
+        print(f"Invalid API choice! Defaulting to Imageride.")
+        image_host = "Imageride"
 
-    # Ensure output folder exists
+    api_url = API_URLS[image_host]
+    api_key = API_KEYS[image_host]
+
+    # Folder paths
+    folder = "/content/screenshots"
+    output_folder = "/content/screenshots/uploaddata"
     os.makedirs(output_folder, exist_ok=True)
-
-    # Get sorted list of PNG & JPG files (A-Z)
     files = sorted(f for f in os.listdir(folder) if f.lower().endswith((".png", ".jpg")))
 
     upload_results = []
@@ -138,7 +156,7 @@ def upload_images_and_generate_bbcode(api_key, folder="/content/screenshots", ou
             img_base64 = base64.b64encode(file.read()).decode('utf-8')
 
         payload = {"key": api_key, "image": img_base64}
-        response = requests.post(URL, data=payload)
+        response = requests.post(api_url, data=payload)
 
         img_response = response.json()  # Get JSON response
         upload_results.append({img: img_response})  # Store response with image name
@@ -170,16 +188,11 @@ def upload_images_and_generate_bbcode(api_key, folder="/content/screenshots", ou
     with open(os.path.join(output_folder, "bbcode_full.txt"), 'w') as f_full, \
          open(os.path.join(output_folder, "bbcode_medium.txt"), 'w') as f_medium, \
          open(os.path.join(output_folder, "bbcode_thumb.txt"), 'w') as f_thumb:
-        f_full.write("\n".join(bbc_full))
+        f_full.write("\n\n".join(bbc_full))
         f_medium.write("\n".join(bbc_medium))
         f_thumb.write("\n".join(bbc_thumb))
 
-    print(f"BBCode files saved in {output_folder}")
-
-# Example usage:
-# upload_images_and_generate_bbcode("your_api_key_here")
-
-        
+    print(f"BBCode files saved in {output_folder}")        
         
 ###########################
 # Screenshot & Media INFO #
