@@ -76,7 +76,7 @@ def edit_torrent(torrent_file, output_folder="Torrents/", flags=None):
     for tracker, (announce_url, prefix) in trackers.items():
         if flags.get(tracker, False):
             modified_torrent = torrent_data.copy()
-            modified_torrent.update({b"announce": announce_url.encode(), b"comment": b"qBittorrent v5.0.3", b"created by": b"qBittorrent v5.0.3"})
+            modified_torrent.update({b"announce": announce_url.encode(), b"created by": b"qBittorrent v5.0.3"})
 
             with open(os.path.join(output_folder, f"{prefix}{base_filename}.torrent"), "wb") as f:
                 f.write(bencode.bencode(modified_torrent))
