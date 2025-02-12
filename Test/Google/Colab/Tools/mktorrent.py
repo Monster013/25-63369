@@ -113,33 +113,72 @@ def generate_screenshots_and_upload(video_path, num_screenshots, output_director
             print(f"Error generating screenshot at {timestamp}.")
             continue
 
-        try:
-            with open(output_path, "rb") as file:
-                img_base64 = base64.b64encode(file.read()).decode('utf-8')
-
-            payload = {"key": api_key, "image": img_base64}
-            response = requests.post("https://www.imageride.net/api/1/upload", data=payload)
-
-            if response.status_code == 200:
-                image_url = response.json()["data"]["url"]
-                image_urls.append(image_url)
-            else:
-                print(f"Error uploading image: {response.json()['error']['message']}")
-        except Exception as e:
-            print(f"Error uploading screenshot_{i+1}.png: {e}")
-
-    return image_urls
-
-def generate_bbcode(image_urls, screenshot_links):
-    bbcode_list = [f"[img]{url}[/img]" for url in image_urls]
-
-    with open(screenshot_links, "w") as file:
-        file.write("\n\n".join(bbcode_list))
-
+      
 def display_first_screenshot(output_directory):
     first_screenshot_path = os.path.join(output_directory, "screenshot_1.png")
     if os.path.exists(first_screenshot_path):
         Image.open(first_screenshot_path).show()
+
+
+def upload_images_and_generate_bbcode(api_key, folder="/content/screenshots", output_folder="/content/screenshots/uploaddata"):
+    URL = "https://www.imageride.net/api/1/upload"
+
+    # Ensure output folder exists
+    os.makedirs(output_folder, exist_ok=True)
+
+    # Get sorted list of PNG & JPG files (A-Z)
+    files = sorted(f for f in os.listdir(folder) if f.lower().endswith((".png", ".jpg")))
+
+    upload_results = []
+    bbc_full, bbc_medium, bbc_thumb = [], [], []
+
+    for img in files:
+        output_path = os.path.join(folder, img)
+        with open(output_path, "rb") as file:
+            img_base64 = base64.b64encode(file.read()).decode('utf-8')
+
+        payload = {"key": api_key, "image": img_base64}
+        response = requests.post(URL, data=payload)
+
+        img_response = response.json()  # Get JSON response
+        upload_results.append({img: img_response})  # Store response with image name
+
+        # Extract URLs from response
+        url_full = img_response.get('data', {}).get('url', '')
+        url_viewer = img_response.get('data', {}).get('url_viewer', '')
+        url_medium = img_response.get('data', {}).get('medium', {}).get('url', '')
+        url_thumb = img_response.get('data', {}).get('thumb', {}).get('url', '')
+
+        # Generate BBCodes
+        if url_full and url_viewer:
+            bbc_full.append(f"[url={url_viewer}][img]{url_full}[/img][/url]")
+        if url_medium and url_viewer:
+            bbc_medium.append(f"[url={url_viewer}][img]{url_medium}[/img][/url]")
+        if url_thumb and url_viewer:
+            bbc_thumb.append(f"[url={url_viewer}][img]{url_thumb}[/img][/url]")
+
+        print(f"{img} → {img_response}")  # Print full JSON response
+
+    # Save all responses to a JSON file
+    json_output_path = os.path.join(output_folder, "upload_responses.json")
+    with open(json_output_path, "w") as json_file:
+        json.dump(upload_results, json_file, indent=4)
+
+    print(f"\nAll responses saved to {json_output_path}")
+
+    # Save BBCode to text files
+    with open(os.path.join(output_folder, "bbcode_full.txt"), 'w') as f_full, \
+         open(os.path.join(output_folder, "bbcode_medium.txt"), 'w') as f_medium, \
+         open(os.path.join(output_folder, "bbcode_thumb.txt"), 'w') as f_thumb:
+        f_full.write("\n".join(bbc_full))
+        f_medium.write("\n".join(bbc_medium))
+        f_thumb.write("\n".join(bbc_thumb))
+
+    print(f"BBCode files saved in {output_folder}")
+
+# Example usage:
+# upload_images_and_generate_bbcode("your_api_key_here")
+
         
         
 ###########################
