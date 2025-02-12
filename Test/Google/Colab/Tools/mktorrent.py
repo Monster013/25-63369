@@ -51,6 +51,40 @@ def get_piece_size(file_or_directory, custom_piece_size):
     else:
         return custom_piece_size
 
+
+def edit_torrent(torrent_file, output_folder="Torrents/", flags=None):
+    import bencode
+
+    os.makedirs(output_folder, exist_ok=True)
+
+    trackers = {
+        "Bwtorrents": ("https://bwtorrents.tv/announce.php", "[BWT]_"),
+        "HDtorrents": ("https://hdts-announce.ru/announce.php", "[HDT]_"),
+        "OnlyEncodes": ("https://onlyencodes.cc/announce/25c4d087ead462cc1524152730249534", "[OE]_"),
+        "ReelFlix": ("https://reelflix.xyz/announce/16e8052671bd10f90bfd97c19ffe8f68", "[RF]_"),
+        "FearNoPeer": ("https://fearnopeer.com/announce/057e9e010fd881a81a3145179c15b6f3", "[FNP]_"),
+        "Avistaz": ("https://tracker.avistaz.to/announce", "[AVZ]_")
+    }
+
+    flags = flags or {k: True for k in trackers}  # Enable all if not provided
+
+    with open(torrent_file, "rb") as f:
+        torrent_data = {k.encode() if isinstance(k, str) else k: v for k, v in bencode.bdecode(f.read()).items()}
+
+    base_filename = os.path.splitext(os.path.basename(torrent_file))[0]
+
+    for tracker, (announce_url, prefix) in trackers.items():
+        if flags.get(tracker, False):
+            modified_torrent = torrent_data.copy()
+            modified_torrent.update({b"announce": announce_url.encode(), b"comment": b"DE3PM", b"created by": b"qBittorrent"})
+
+            with open(os.path.join(output_folder, f"{prefix}{base_filename}.torrent"), "wb") as f:
+                f.write(bencode.bencode(modified_torrent))
+
+            print(f"Saved: {prefix}{base_filename}.torrent")
+
+
+
 ########################
 # Screenshots & Upload #
 ########################
