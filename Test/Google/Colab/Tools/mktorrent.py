@@ -12,6 +12,7 @@ def install_torrents_tools():
         os.system('sudo add-apt-repository ppa:ubuntuhandbook1/ffmpeg7')
         os.system('sudo apt-get install ffmpeg')
         os.system('pip install bencode.py')
+        os.system("pip install ffmpeg-python")
 
 #############
 # MKTORRENT #
@@ -92,12 +93,9 @@ def edit_torrent(torrent_file, output_folder="Torrents/", flags=None):
 
 def generate_screenshots(video_path, num_screenshots, output_directory, quality=2):
     os.makedirs(output_directory, exist_ok=True)
-    try:
-        import ffmpeg
-    except ImportError:
-        os.system("pip install ffmpeg-python")
-        import ffmpeg
-        
+   
+    import ffmpeg
+    
     # Probe video file to get duration
     image_urls = []
     probe = ffmpeg.probe(video_path)
