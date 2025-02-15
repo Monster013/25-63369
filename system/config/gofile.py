@@ -3,12 +3,15 @@
 # GoFile (Python Script) #
 ##########################
 
+import importlib.util, os  
+if any(importlib.util.find_spec(p) is None for p in ["colorama", "tqdm", "requests_toolbelt"]):  
+    os.system("pip install colorama tqdm requests_toolbelt")      
+
 import os
 import sys
 import shutil
 import requests
 from requests import post, get
-os.system("pip install colorama tqdm requests_toolbelt")
 from tqdm.notebook import tqdm
 from colorama import Fore, Style
 from IPython.display import clear_output
