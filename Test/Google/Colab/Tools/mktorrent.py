@@ -65,7 +65,9 @@ def edit_torrent(torrent_file, output_folder="Torrents/", flags=None):
         "OnlyEncodes": ("https://onlyencodes.cc/announce/25c4d087ead462cc1524152730249534", "[OE]_"),
         "ReelFlix": ("https://reelflix.xyz/announce/16e8052671bd10f90bfd97c19ffe8f68", "[RF]_"),
         "FearNoPeer": ("https://fearnopeer.com/announce/057e9e010fd881a81a3145179c15b6f3", "[FNP]_"),
-        "Avistaz": ("https://tracker.avistaz.to/announce", "[AVZ]_")
+        "Avistaz": ("https://tracker.avistaz.to/announce", "[AVZ]_"),
+        "TorrentLeech": ("https://tracker.torrentleech.org/a/290c045dd374d7946f6fe12b82cb0590", "[TL]_"),
+        "Upload.LX": ("https://upload.cx/announce/348dd8411ba6ede76c4fa29ce84f6e00", "[ULCX]_")
     }
 
     flags = flags or {k: True for k in trackers}  # Enable all if not provided
