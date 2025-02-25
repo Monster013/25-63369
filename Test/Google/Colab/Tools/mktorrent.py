@@ -28,24 +28,26 @@ def generate_output_file(file_or_directory):
 def calculate_piece_size(file_or_directory):
     file_size = os.path.getsize(file_or_directory)
 
-    if file_size < 350 * 2**20:  # less than 350MiB
+    if file_size < 350 * 2**20:   # < 350MiB
         return 18  # 256 KiB
-    elif file_size < 512 * 2**20:  # 350MiB to 512MiB
+    elif file_size < 512 * 2**20:  # 350MiB – 512MiB
         return 18  # 256 KiB
-    elif file_size < 1 * 2**30:  # 512MiB to 1.0GiB
+    elif file_size < 1 * 2**30:    # 512MiB – 1.0GiB
         return 19  # 512 KiB
-    elif file_size < 2 * 2**30:  # 1.0GiB to 2.0GiB
+    elif file_size < 2 * 2**30:    # 1.0GiB – 2.0GiB
         return 20  # 1 MiB
-    elif file_size < 8 * 2**30:  # 2.0GiB to 8.0GiB
+    elif file_size < 4 * 2**30:    # 2.0GiB – 4.0GiB
         return 21  # 2 MiB
-    elif file_size < 25 * 2**30:  # 4.0GiB to 8.0GiB
+    elif file_size < 8 * 2**30:    # 4.0GiB – 8.0GiB
         return 22  # 4 MiB
-    elif file_size < 40 * 2**30:  # 8.0GiB to 16.0GiB
+    elif file_size < 16 * 2**30:   # 8.0GiB – 16.0GiB
         return 23  # 8 MiB
-    elif file_size < 50 * 2**30:  # 16.0GiB to 50.0GiB
+    elif file_size < 32 * 2**30:   # 16.0GiB – 32.0GiB
         return 24  # 16 MiB
-    else:  # 50.0GiB and up
+    elif file_size < 64 * 2**30:   # 32.0GiB – 64.0GiB
         return 25  # 32 MiB
+    else:                          # 64.0GiB and up
+        return 26  # 64 MiB
 
 def get_piece_size(file_or_directory, custom_piece_size):
     if custom_piece_size == 0:
