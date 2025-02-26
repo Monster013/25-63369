@@ -25,8 +25,14 @@ def generate_output_file(file_or_directory):
     return f"{base_name_without_extension}.torrent"
 
 # Calculate piece
-def calculate_piece_size(file_or_directory):
-    file_size = os.path.getsize(file_or_directory)
+def get_piece_size(path):
+    """Returns the recommended -p value for a file or directory based on its total size."""
+    if os.path.isfile(path):
+        file_size = os.path.getsize(path)
+    elif os.path.isdir(path):
+        file_size = sum(os.path.getsize(os.path.join(dirpath, f)) for dirpath, _, files in os.walk(path) for f in files)
+    else:
+        raise ValueError("Invalid path: Must be a file or directory")
 
     if file_size < 350 * 2**20:   # < 350MiB
         return 18  # 256 KiB
@@ -48,13 +54,6 @@ def calculate_piece_size(file_or_directory):
         return 25  # 32 MiB
     else:                          # 64.0GiB and up
         return 26  # 64 MiB
-
-def get_piece_size(file_or_directory, custom_piece_size):
-    if custom_piece_size == 0:
-        return calculate_piece_size(file_or_directory)
-    else:
-        return custom_piece_size
-
 
 def edit_torrent(torrent_file, output_folder="Torrents/", flags=None):
     import bencode
