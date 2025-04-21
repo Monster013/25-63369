@@ -71,7 +71,7 @@ def install_rtorrent(name="flood"):
         output = subprocess.run("ps aux | grep '[f]lood'", shell=True, text=True, capture_output=True)
         if not output.stdout.strip():
             print("Flood UI Starting...")
-            subprocess.Popen(['flood', '--rthost', '127.0.0.1', '--rtport', '5000', '--rundir', '/content/Tools/Flood'])
+            subprocess.Popen(['flood', '--rtsocket', '/content/Tools/rTorrent/rtorrent.sock', '--auth', 'none', '--rundir', '/content/Tools/Flood'])
             clear_output()
         else:
             print("Flood UI is already running.")
