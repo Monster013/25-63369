@@ -62,9 +62,9 @@ def install_rtorrent(name="flood"):
         if not shutil.which('flood'):
             print("Installing Flood UI...")
             os.system('npm install --global flood')
-            os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/system/config/rTorrent.zip" -O "/content/rTorrent.zip"')
-            os.system('unzip "/content/rTorrent.zip" -d "/content/Tools"')
-            os.remove('/content/rTorrent.zip')
+            os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/system/config/flood(RT).zip" -O "/content/flood(RT).zip"')
+            os.system('unzip "/content/flood(RT).zip" -d "/content/Tools"')
+            os.remove('/content/flood(RT).zip')
             print("Flood UI installed successfully.")
             
         # Check if Flood is running
