@@ -63,7 +63,7 @@ def install_rtorrent(name="flood"):
             print("Installing Flood UI...")
             os.system('npm install --global flood')
             os.system('wget "https://github.com/Monster013/25-63369/raw/refs/heads/main/system/config/flood(RT).zip" -O "/content/flood(RT).zip"')
-            os.system('unzip "/content/flood(RT).zip" -d "/content/Tools"')
+            os.system('unzip "/content/flood(RT).zip" -d "/root/.rtorrent/"')
             os.remove('/content/flood(RT).zip')
             print("Flood UI installed successfully.")
             
@@ -71,7 +71,7 @@ def install_rtorrent(name="flood"):
         output = subprocess.run("ps aux | grep '[f]lood'", shell=True, text=True, capture_output=True)
         if not output.stdout.strip():
             print("Flood UI Starting...")
-            subprocess.Popen(['flood', '--rtsocket', '/content/Tools/rTorrent/rtorrent.sock', '--auth', 'none', '--rundir', '/content/Tools/Flood'])
+            subprocess.Popen(['flood', '--rtsocket', '/root/.rtorrent/rtorrent.sock', '--auth', 'none', '--rundir', '/root/.rtorrent/Flood'])
             clear_output()
         else:
             print("Flood UI is already running.")
