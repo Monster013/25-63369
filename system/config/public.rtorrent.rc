@@ -1,20 +1,51 @@
 
-# Disk & Memory
+# SCGI (for web UI or XML-RPC)
+scgi_local = /root/.rtorrent/rtorrent.sock
+
+# Default paths
 directory = /content/
-session = /content/Tools/rTorrent/Session
+session = /root/.rtorrent
 
-# Incoming Connections (Port Range)
-port_range = 40000-50000
-port_random = yes
+# No ratio enforcement
+ratio.enable = no
 
-# Decentralized Peer Discovery
-dht = auto
-dht_port = 6881
-min_peers = 1
-min_peers_seed = 1
+# Networking
+network.port_range.set = 29186-29186
+network.max_open_sockets.set = 512
+network.max_open_files.set = 512
+network.receive_buffer.size.set = 8M
+network.send_buffer.size.set = 8M
+network.xmlrpc.size_limit.set = 6M
+network.http.max_open.set = 32
+network.http.dns_cache_timeout.set = 10
+trackers.numwant.set = 80
+trackers.use_udp.set = yes
 
-# Enable encryption
-encryption = allow_incoming,try_outgoing,enable_retry
+# Unlimited speed
+throttle.global_down.max_rate.set_kb = 0
+throttle.global_up.max_rate.set_kb = 0
 
-# SCGI local
-scgi_local = /content/Tools/rTorrent/rtorrent.sock
+# Peer settings
+throttle.max_downloads.global.set = 100
+throttle.max_uploads.global.set = 100
+throttle.max_peers.normal.set = 200
+throttle.max_peers.seed.set = 200
+throttle.min_peers.normal.set = 40
+throttle.min_peers.seed.set = 20
+
+# Memory and performance
+pieces.memory.max.set = 4000M
+pieces.preload.type.set = 2
+pieces.hash.on_completion.set = no
+check_hash = no
+
+# Disable DHT & PEX (optional, for private trackers)
+dht = off
+dht.mode.set = off
+protocol.pex.set = no
+
+# Logging
+log.open_file = "rtorrent", "/root/.rtorrent/rtorrent.log"
+log.add_output = "critical", "rtorrent"
+log.add_output = "error", "rtorrent"
+log.add_output = "notice", "rtorrent"
