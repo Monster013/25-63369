@@ -1,36 +1,40 @@
 
-# Disk & Memory
+# Directories
 directory = /content/
 session = /root/.rtorrent
+session.lock = yes
 
-# Incoming Connections (Port Range)
-port_range = 40000-50000
-port_random = yes
+# Incoming Port Range (you can use a fixed one if tracker requires)
+port_range = 29186-29186
+port_random = no
 
-# Decentralized Peer Discovery
-dht.mode.set = auto
+# Disable decentralized discovery (for private torrents)
+dht.mode.set = disable
 protocol.pex.set = no
 trackers.use_udp.set = no
-dht_port = 6881
 
-# Peers & Slot Availability
-min_peers = 6
+# Peer limits
+min_peers = 20
 max_peers = 200
-min_peers_seed = 6
+min_peers_seed = 20
 max_peers_seed = 200
-max_downloads_global = 250
-max_uploads_global = 250
+max_downloads_global = 100
+max_uploads_global = 100
+trackers.numwant.set = 80
+
+# No rate limits (set non-zero if you want to throttle)
 download_rate = 0
 upload_rate = 0
-trackers.numwant.set = 100
+
+# Network performance
 network.http.max_open.set = 50
-network.max_open_files.set = 600
-network.max_open_sockets.set = 300
+network.max_open_files.set = 1024
+network.max_open_sockets.set = 512
 
-# Enable encryption
-encryption = allow_incoming,try_outgoing,enable_retry
+# Encryption (some private trackers require plaintext; allow fallback)
+encryption = allow_incoming,prefer_plaintext,enable_retry
 
-# SCGI (for web UI or XML-RPC)
+# SCGI (for web UI)
 scgi_local = /root/.rtorrent/rtorrent.sock
 
 # Logging
@@ -38,3 +42,11 @@ log.open_file = "rtorrent", "/root/.rtorrent/rtorrent.log"
 log.add_output = "critical", "rtorrent"
 log.add_output = "error", "rtorrent"
 log.add_output = "notice", "rtorrent"
+
+# Watch directory for auto-loading torrents (optional)
+# Uncomment if you want torrents auto-loaded
+# schedule2 = "watch_start,1,1,load_start=/content/*.torrent"
+
+# Enable fast hashing and session completion save
+pieces.hash.on_completion.set = yes
+session.on_completion.set = yes
