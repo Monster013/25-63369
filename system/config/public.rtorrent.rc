@@ -2,7 +2,6 @@
 # Disk & Memory
 directory = /content/
 session = /root/.rtorrent
-session.lock = yes
 
 # Port configuration
 # Port forwarding isn't possible in Colab, but we use a high port range anyway
