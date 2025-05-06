@@ -1,51 +1,59 @@
 
-# SCGI (for web UI or XML-RPC)
-scgi_local = /root/.rtorrent/rtorrent.sock
-
-# Default paths
+# Disk & Memory
 directory = /content/
 session = /root/.rtorrent
+session.lock = yes
 
-# No ratio enforcement
-ratio.enable = no
+# Port configuration
+# Port forwarding isn't possible in Colab, but we use a high port range anyway
+port_range = 40000-50000
+port_random = yes
+dht_port = 6881
 
-# Networking
-network.port_range.set = 29186-29186
+# Peer discovery and trackers (public torrent features)
+dht.mode.set = auto           # Enable DHT for public peer discovery
+protocol.pex.set = yes        # Enable Peer Exchange
+trackers.use_udp.set = yes    # Enable UDP tracker support
+
+# SCGI for web UI (ruTorrent/Flood)
+scgi_local = /root/.rtorrent/rtorrent.sock
+
+# Peer connection settings for fast start
+min_peers = 30
+max_peers = 500
+min_peers_seed = 30
+max_peers_seed = 500
+max_downloads_global = 250
+max_uploads_global = 250
+trackers.numwant.set = 100    # Ask for 100 peers per tracker
+
+# Network performance tuning
+download_rate = 0             # Unlimited download
+upload_rate = 0               # Unlimited upload
+network.http.max_open.set = 50
+network.max_open_files.set = 1024
 network.max_open_sockets.set = 512
-network.max_open_files.set = 512
-network.receive_buffer.size.set = 8M
-network.send_buffer.size.set = 8M
-network.xmlrpc.size_limit.set = 6M
-network.http.max_open.set = 32
-network.http.dns_cache_timeout.set = 10
-trackers.numwant.set = 80
-trackers.use_udp.set = yes
+pieces.hash.on_completion.set = yes
+session.on_completion.set = yes
 
-# Unlimited speed
-throttle.global_down.max_rate.set_kb = 0
-throttle.global_up.max_rate.set_kb = 0
+# Peer connection speed tweaks
+connection_check = 20
+connection_timeout = 10
+send_buffer_size = 512K
+receive_buffer_size = 512K
 
-# Peer settings
-throttle.max_downloads.global.set = 100
-throttle.max_uploads.global.set = 100
-throttle.max_peers.normal.set = 200
-throttle.max_peers.seed.set = 200
-throttle.min_peers.normal.set = 40
-throttle.min_peers.seed.set = 20
+# Encryption (support all types)
+encryption = allow_incoming,try_outgoing,enable_retry
 
-# Memory and performance
-pieces.memory.max.set = 4000M
-pieces.preload.type.set = 2
-pieces.hash.on_completion.set = no
-check_hash = no
-
-# Disable DHT & PEX (optional, for private trackers)
-dht = off
-dht.mode.set = off
-protocol.pex.set = no
+# Tracker start settings (reannounce every 30s for new peers)
+schedule2 = "tracker_reannounce,5,30,tracker.reannounce=*"
 
 # Logging
 log.open_file = "rtorrent", "/root/.rtorrent/rtorrent.log"
 log.add_output = "critical", "rtorrent"
 log.add_output = "error", "rtorrent"
 log.add_output = "notice", "rtorrent"
+
+# Auto-load and start torrents from /content/
+schedule2 = "watch_start,1,1,load_start=/content/*.torrent"
+schedule2 = "start_torrents,5,5,d.try_start=;d.start="
