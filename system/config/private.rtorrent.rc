@@ -2,7 +2,6 @@
 # Directories
 directory = /content/
 session = /root/.rtorrent
-session.lock = yes
 
 # Incoming Port Range (you can use a fixed one if tracker requires)
 port_range = 29186-29186
