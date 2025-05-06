@@ -1,8 +1,7 @@
 
 # Disk & Memory
 directory = /content/
-session = /content/Tools/rTorrent/Session
-check_hash = yes
+session = /root/.rtorrent
 
 # Incoming Connections (Port Range)
 port_range = 40000-50000
@@ -15,10 +14,10 @@ trackers.use_udp.set = no
 dht_port = 6881
 
 # Peers & Slot Availability
-min_peers = 1
-max_peers = 100
-min_peers_seed = 1
-max_peers_seed = 100
+min_peers = 6
+max_peers = 200
+min_peers_seed = 6
+max_peers_seed = 200
 max_downloads_global = 250
 max_uploads_global = 250
 download_rate = 0
@@ -31,5 +30,11 @@ network.max_open_sockets.set = 300
 # Enable encryption
 encryption = allow_incoming,try_outgoing,enable_retry
 
-# SCGI local
-scgi_local = Tools/rTorrent/rtorrent.sock
+# SCGI (for web UI or XML-RPC)
+scgi_local = /root/.rtorrent/rtorrent.sock
+
+# Logging
+log.open_file = "rtorrent", "/root/.rtorrent/rtorrent.log"
+log.add_output = "critical", "rtorrent"
+log.add_output = "error", "rtorrent"
+log.add_output = "notice", "rtorrent"
